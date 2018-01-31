@@ -1,26 +1,26 @@
 <?php
-namespace HoneycombStarter\Admin;
+namespace wpGiosMap\Admin;
 use Honeycomb\Wordpress\Hook;
 
 // Avoid direct calls to this file
-if ( ! defined( 'HONEYCOMB_STARTER_PLUGIN_VERSION' ) ) {
+if ( ! defined( 'WP_GIOS_MAP_PLUGIN_VERSION' ) ) {
   header( 'Status: 403 Forbidden' );
   header( 'HTTP/1.1 403 Forbidden' );
   exit();
 }
 
 /**
- * Honeycomb_Starter_Admin_Page
+ * WP_GIOS_Map_Admin_Page
  * provides the WP Admin settings page
  */
-class Honeycomb_Starter_Admin_Page extends Hook {
-  use \HoneycombStarter\Options_Handler_Trait;
+class WP_GIOS_Map_Admin_Page extends Hook {
+  use \wpGiosMap\Options_Handler_Trait;
 
-  public static $options_name = 'honeycomb-starter-options';
-  public static $options_group = 'honeycomb-starter-options_group';
-  public static $section_id = 'honeycomb-starter-section_id';
-  public static $section_name = 'honeycomb-starter-section_name';
-  public static $page_name = 'honeycomb-starter-admin-page';
+  public static $options_name = 'wp-gios-map-options';
+  public static $options_group = 'wp-gios-map-options_group';
+  public static $section_id = 'wp-gios-map-section_id';
+  public static $section_name = 'wp-gios-map-section_name';
+  public static $page_name = 'wp-gios-map-admin-page';
 
   public static $setting_one_option_name = 'setting_one';
   public static $setting_two_option_name = 'setting_two';
@@ -65,7 +65,7 @@ class Honeycomb_Starter_Admin_Page extends Hook {
 
     add_settings_section(
         self::$section_id,
-        'Honeycomb Starter Settings',
+        'WP GIOS Map Settings',
         array(
           $this,
           'print_section_info',
@@ -97,14 +97,14 @@ class Honeycomb_Starter_Admin_Page extends Hook {
   }
 
   public function admin_menu() {
-    $page_title = 'Honeycomb Starter Plugin Settings';
-    $menu_title = 'Honeycomb Starter';
+    $page_title = 'WP GIOS Map Plugin Settings';
+    $menu_title = 'WP GIOS Map';
     $capability = 'manage_options';
     $path = plugin_dir_url( __FILE__ );
 
     add_options_page(
         'Settings Admin',
-        'Honeycomb Starter Page',
+        'WP GIOS Map Page',
         $capability,
         self::$page_name,
         array( $this, 'render_admin_page' )
@@ -115,7 +115,7 @@ class Honeycomb_Starter_Admin_Page extends Hook {
   public function render_admin_page() {
     ?>
     <div class="wrap">
-        <h1>Honeycomb Starter Settings</h1>
+        <h1>WP GIOS Map Settings</h1>
         <form method="post" action="options.php">
         <?php
             // This prints out all hidden setting fields

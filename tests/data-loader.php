@@ -4,7 +4,7 @@
  */
 
 update_option(
-    'honeycomb-starter-options',
+    'wp-gios-map-options',
     array(
       'setting_one' => 'test value',
       'setting_two' => 999,

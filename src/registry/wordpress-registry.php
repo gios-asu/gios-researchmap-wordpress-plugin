@@ -5,6 +5,6 @@
  */
 
 return [
-  HoneycombStarter\Shortcodes\Honeycomb_Starter_Shortcodes::class,
-  HoneycombStarter\Admin\Honeycomb_Starter_Admin_Page::class,
+  wpGiosMap\Shortcodes\WP_GIOS_Map_Shortcodes::class,
+  wpGiosMap\Admin\WP_GIOS_Map_Admin_Page::class,
 ];
