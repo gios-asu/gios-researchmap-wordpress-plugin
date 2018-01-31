@@ -41,6 +41,7 @@ class WP_GIOS_Map_Shortcodes extends Hook {
     // $this->add_action( 'wp_head', $this, 'add_html_cache_header' );
 
     $this->add_shortcode( 'hello-world', $this, 'hello_world' );
+    $this->add_shortcode( 'gios_map', $this, 'gios_map_shortcode_handler' );
   }
 
   /**
@@ -161,4 +162,22 @@ class WP_GIOS_Map_Shortcodes extends Hook {
     return $response->content;
   }
 
+
+  /**
+   * gios_map_shortcode_handler( array|string $atts)
+   *
+   * This is the shortcode used to draw the research map.
+   */
+   public function gios_map_shortcode_handler( $atts, $content = "" ) {
+    if ( ! is_array( $atts ) ) {
+      $atts = array();
+    }
+    ensure_default( $atts, 'foo', 'Foo!' );
+    ensure_default( $atts, 'bar', 'Bar!' );
+
+    $view_name = 'gios-map-shortcode.gios-map-display';
+    $response = $this->view( $view_name )->add_data( $atts )->build();
+    return $response->content;
+
+    }
 }
