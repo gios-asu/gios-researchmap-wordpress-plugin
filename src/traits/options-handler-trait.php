@@ -1,6 +1,6 @@
 <?php
 
-namespace HoneycombStarter;
+namespace wpGiosMap;
 
 trait Options_Handler_Trait {
   /**

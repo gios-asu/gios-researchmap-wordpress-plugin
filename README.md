@@ -1,7 +1,7 @@
-# honeycomb-starter-wordpress-plugin
-[![Build Status](https://travis-ci.org/gios-asu/honeycomb-starter-wordpress-plugin.svg?branch=develop)](https://travis-ci.org/gios-asu/honeycomb-starter-wordpress-plugin)
+# wp-gios-map
+[![Build Status](https://travis-ci.org/gios-asu/wp-gios-map.svg?branch=develop)](https://travis-ci.org/gios-asu/wp-gios-map)
 
-A starter WordPress plugin for building your own Honeycomb-based plugins
+A WordPress plugin for displaying the GIOS research map
 
 # Requirements
 * php > 5.5

@@ -1,22 +1,22 @@
 <?php
-namespace HoneycombStarter\Shortcodes;
+namespace wpGiosMap\Shortcodes;
 use Honeycomb\Wordpress\Hook;
-use HoneycombStarter\Admin\Honeycomb_Starter_Admin_Page;
-use HoneycombStarter\Options_Handler_Trait;
+use wpGiosMap\Admin\WP_GIOS_Map_Admin_Page;
+use wpGiosMap\Options_Handler_Trait;
 
 
 // Avoid direct calls to this file
-if ( ! defined( 'HONEYCOMB_STARTER_PLUGIN_VERSION' ) ) {
+if ( ! defined( 'WP_GIOS_MAP_PLUGIN_VERSION' ) ) {
   header( 'Status: 403 Forbidden' );
   header( 'HTTP/1.1 403 Forbidden' );
   exit();
 }
 
 /**
- * Honeycomb_Starter_Shortcodes
+ * WP_GIOS_Map_Shortcodes
  * provides the shortcode [hello-world]
  */
-class Honeycomb_Starter_Shortcodes extends Hook {
+class WP_GIOS_Map_Shortcodes extends Hook {
   use Options_Handler_Trait;
 
   private $path_to_views;
@@ -24,7 +24,7 @@ class Honeycomb_Starter_Shortcodes extends Hook {
   const EXAMPLE_CLASS_CONSTANT  = 'Example Class Constant Value';
 
   public function __construct() {
-    parent::__construct( 'honeycomb-starter-shortcodes', HONEYCOMB_STARTER_PLUGIN_VERSION );
+    parent::__construct( 'wp-gios-map-shortcodes', WP_GIOS_MAP_PLUGIN_VERSION );
     $this->path_to_views = __DIR__ . '/../views/';
     $this->define_hooks();
   }
@@ -102,11 +102,11 @@ class Honeycomb_Starter_Shortcodes extends Hook {
    */
   public function wp_enqueue_scripts() {
     if ( $this->current_page_has_hello_world_shortcode() ) {
-      $url_to_css_file = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/css/honeycomb-starter.css';
+      $url_to_css_file = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/css/wp-gios-map.css';
       wp_enqueue_style( $this->plugin_slug, $url_to_css_file, array(), $this->version );
 
       // alternately, if you use Bower or another dependency manager to load needed library assets, point to that location
-      $url_to_script_example = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/css/honeycomb-starter.js';
+      $url_to_script_example = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/css/wp-gios-map.js';
       wp_enqueue_script( 'script-example', $url_to_script_example, array( 'js' ), '1.0.0', false );
     }
   }
@@ -135,15 +135,15 @@ class Honeycomb_Starter_Shortcodes extends Hook {
       'current_page_url' => get_permalink(),
       'setting_one' => $this->get_option_attribute_or_default(
           array(
-            'name'      => Honeycomb_Starter_Admin_Page::$options_name,
-            'attribute' => Honeycomb_Starter_Admin_Page::$setting_one_option_name,
+            'name'      => WP_GIOS_Map_Admin_Page::$options_name,
+            'attribute' => WP_GIOS_Map_Admin_Page::$setting_one_option_name,
             'default'   => 'default value',
           )
       ),
       'setting_two' => $this->get_option_attribute_or_default(
           array(
-            'name'      => Honeycomb_Starter_Admin_Page::$options_name,
-            'attribute' => Honeycomb_Starter_Admin_Page::$setting_two_option_name,
+            'name'      => WP_GIOS_Map_Admin_Page::$options_name,
+            'attribute' => WP_GIOS_Map_Admin_Page::$setting_two_option_name,
             'default'   => 0,
           )
       )
