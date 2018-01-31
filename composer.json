@@ -1,0 +1,36 @@
+{
+  "name": "gios-asu/honeycomb-starter-wordpress-plugin",
+  "description": "A starter WordPress plugin for building your own Honeycomb-based plugins",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Nathan Rollins",
+      "email": "nathan.rollins@asu.edu"
+    }
+  ],
+  "autoload": {
+    "classmap" : [ "src/" ]
+  },
+  "repositories": [
+    {
+      "url": "https://github.com/gios-asu/nectary.git",
+      "type": "git"
+    },
+    {
+      "url": "https://github.com/gios-asu/honeycomb.git",
+      "type": "git"
+    }
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=5.5",
+    "gios-asu/nectary": "^0.2.2",
+    "gios-asu/honeycomb": "^1.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8",
+    "satooshi/php-coveralls": "^1.0",
+    "squizlabs/php_codesniffer": "^2.7",
+    "wp-coding-standards/wpcs": "^0.10"
+  }
+}

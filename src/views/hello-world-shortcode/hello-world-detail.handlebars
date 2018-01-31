@@ -1,0 +1,15 @@
+
+<div>
+  <h2>Hello from the Honeycomb Starter Plugin!</h2>
+  {{#if_cond testmode '==' 'Test'}}
+  <p>This plugin is in Test Mode!</p>
+  {{else}}
+  <p>This plugin is in Production Mode!</p>
+  {{/if_cond}}
+  <p>Example Class Constant: {{ example_class_constant }}</p>
+  <p>Current Page Url: {{ current_page_url }}</p>
+  <p>Setting One: {{ setting_one }}</p>
+  <p>Setting Two: {{ setting_two }}</p>
+</div>
+
+{{> hello-world-shortcode/example-javascript }}
