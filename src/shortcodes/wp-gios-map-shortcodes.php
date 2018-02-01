@@ -35,7 +35,7 @@ class WP_GIOS_Map_Shortcodes extends Hook {
    * Uncomment action lines when that action is useful for your plugin
    */
   public function define_hooks() {
-    // $this->add_action( 'wp_enqueue_scripts', $this, 'wp_enqueue_scripts' );
+    $this->add_action( 'wp_enqueue_scripts', $this, 'wp_enqueue_scripts' );
     // $this->add_action( 'init', $this, 'setup_rewrites' );
     // $this->add_action( 'wp', $this, 'add_http_cache_header' );
     // $this->add_action( 'wp_head', $this, 'add_html_cache_header' );
@@ -87,6 +87,17 @@ class WP_GIOS_Map_Shortcodes extends Hook {
   }
 
   /**
+   * Returns true if the page is using the [gios_map] shortcode, else false
+   *
+   * Don't enqueue any scripts or stylesheets provided by this plugin,
+   * unless we are actually rendering the shortcode
+   */
+  private function current_page_has_gios_map_shortcode() {
+    global $post;
+    return ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'gios_map' ) );
+  }
+
+  /**
    * Set up any url rewrites: Enable if needed
    *
    * WordPress requires that you tell it that you are using
@@ -102,13 +113,25 @@ class WP_GIOS_Map_Shortcodes extends Hook {
    * Hooks onto `wp_enqueue_scripts`.
    */
   public function wp_enqueue_scripts() {
-    if ( $this->current_page_has_hello_world_shortcode() ) {
-      $url_to_css_file = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/css/wp-gios-map.css';
+
+    if ( $this->current_page_has_gios_map_shortcode() ) {
+      // enqueue stylesheet
+      $url_to_css_file = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/css/gios-map-styles.css';
       wp_enqueue_style( $this->plugin_slug, $url_to_css_file, array(), $this->version );
 
-      // alternately, if you use Bower or another dependency manager to load needed library assets, point to that location
-      $url_to_script_example = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/css/wp-gios-map.js';
-      wp_enqueue_script( 'script-example', $url_to_script_example, array( 'js' ), '1.0.0', false );
+      // enqueue javascript files
+      $url_to_script = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/js/raphael.min.js';
+      wp_enqueue_script( 'raphael', $url_to_script, null, '1.0.0', false );
+
+      $url_to_script = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/js/jquery.mapael.min.js';
+      wp_enqueue_script( 'jquery-mapael', $url_to_script, array( 'raphael' ), '1.0.0', false );
+
+      $url_to_script = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/js/world_countries_miller.min.js';
+      wp_enqueue_script( 'world-map', $url_to_script, null, '1.0.0', false );
+
+      $url_to_script = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/js/gios-map.min.js';
+      wp_enqueue_script( 'gios-map', $url_to_script, null, '1.0.0', false );
+
     }
   }
 

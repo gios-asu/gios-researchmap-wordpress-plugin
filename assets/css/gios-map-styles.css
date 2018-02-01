@@ -1,0 +1,91 @@
+.map-container {
+  position: relative;
+}
+
+.tool-tip {
+  background-color: #2F313D;
+  border-radius: 5px;
+  box-shadow: 5px 5px 3px #293132;
+  color: #EFF2EE;
+  display: none;
+  line-height: 1em;
+  padding: 0.5em;
+  position: absolute;
+}
+
+.map {
+  background-color: #FFF;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.redBubble {
+  fill: #F00;
+  fill-opacity: 1.0 !important;
+}
+
+.morecontent span {
+  display: none;
+}
+
+.details {
+  margin-top: 1rem;
+}
+
+.title-bar {
+  background-color: #2F313D;
+  color: #FFF;
+  font-size: 28px;
+  /* width: 100%; */
+  z-index: 100;
+}
+
+.overlay {
+  background-image: url( "../img/striped-bg.png" );
+  background-repeat: repeat;
+  display: none;
+  height: 100%;
+  left:0;
+  opacity: 0.25;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 110;
+}
+
+.country-name {
+  color: #FFF;
+  margin-left: 1em;
+}
+
+.controls {
+  float: right;
+  margin-right: 1em;
+  }
+
+.map-control {
+  color: #EFF2EE;
+  cursor: pointer;
+  margin-left: 1em;
+  transition-duration: 0.5s;
+}
+
+.details-close {
+  color: #F00;
+}
+
+.map-control-disabled {
+  cursor: not-allowed;
+  opacity: 0.25;
+}
+
+.zoomButton {
+  /* To hide the map's built-in zoom controls, since we are using our own */
+  display: none;
+}
+
+@media only screen and (max-width: 767px ) {
+  .title-bar {
+    font-size: 12px;
+  }
+}
