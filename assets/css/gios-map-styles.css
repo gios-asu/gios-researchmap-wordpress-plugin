@@ -55,12 +55,12 @@
 }
 
 .country-name {
-  margin-left: 1em;
+  margin-left: 0;
 }
 
 .controls {
-  float: right;
-  margin-right: 1em;
+  /* float: right; */
+  margin-right: 0;
   }
 
 .map-control {
