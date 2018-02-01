@@ -28,13 +28,14 @@
   display: none;
 }
 
-.details {
+#details {
   margin-top: 1rem;
 }
 
 .title-bar {
-  background-color: #2F313D;
-  color: #FFF;
+  /* background-color: #2F313D; */
+  background-color: #FFF;
+  color: #333;
   font-size: 28px;
   /* width: 100%; */
   z-index: 100;
@@ -54,7 +55,6 @@
 }
 
 .country-name {
-  color: #FFF;
   margin-left: 1em;
 }
 
@@ -64,19 +64,19 @@
   }
 
 .map-control {
-  color: #EFF2EE;
+  color: #62142D;
   cursor: pointer;
   margin-left: 1em;
   transition-duration: 0.5s;
 }
 
 .details-close {
-  color: #F00;
+  /* color: #F00; */
 }
 
 .map-control-disabled {
   cursor: not-allowed;
-  opacity: 0.25;
+  opacity: 0.1;
 }
 
 .zoomButton {
@@ -84,8 +84,10 @@
   display: none;
 }
 
+/*
 @media only screen and (max-width: 767px ) {
   .title-bar {
     font-size: 12px;
   }
+*/
 }
