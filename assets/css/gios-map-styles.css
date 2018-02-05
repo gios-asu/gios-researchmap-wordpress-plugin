@@ -14,8 +14,9 @@
 }
 
 .gios-research-map {
-  border: 1px solid #DDD;
   background-color: #FFF;
+  border: 1px solid #EEE;
+  border-radius: 5px;
   line-height: 0; /* for some reason, this prevents a small padding at the bottom of the map */
   overflow: hidden;
 
