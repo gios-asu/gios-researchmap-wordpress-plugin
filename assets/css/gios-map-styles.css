@@ -5,38 +5,36 @@
 .tool-tip {
   background-color: #2F313D;
   border-radius: 5px;
-  box-shadow: 5px 5px 3px #293132;
+  box-shadow: 5px 5px 3px #AAA;
   color: #EFF2EE;
   display: none;
   line-height: 1em;
-  padding: 0.5em;
+  padding: 0.25em;
   position: absolute;
 }
 
-.map {
+.gios-research-map {
   background-color: #FFF;
-  line-height: 0;
+  border: 1px solid #EEE;
+  border-radius: 5px;
+  line-height: 0; /* for some reason, this prevents a small padding at the bottom of the map */
   overflow: hidden;
-}
 
-.redBubble {
-  fill: #F00;
-  fill-opacity: 1.0 !important;
 }
 
 .morecontent span {
   display: none;
 }
 
-.details {
+#details {
   margin-top: 1rem;
 }
 
 .title-bar {
-  background-color: #2F313D;
-  color: #FFF;
-  font-size: 28px;
-  /* width: 100%; */
+  background-color: #FFF;
+  color: #333;
+  /* font-size: 28px; */
+  text-align: center;
   z-index: 100;
 }
 
@@ -46,7 +44,7 @@
   display: none;
   height: 100%;
   left:0;
-  opacity: 0.25;
+  opacity: 0.1;
   position: absolute;
   top: 0;
   width: 100%;
@@ -54,29 +52,39 @@
 }
 
 .country-name {
-  color: #FFF;
-  margin-left: 1em;
+  /* font-weight: bold; */
 }
 
 .controls {
-  float: right;
-  margin-right: 1em;
+  text-align: center;
   }
 
 .map-control {
-  color: #EFF2EE;
+  color: #0080FF;
   cursor: pointer;
-  margin-left: 1em;
   transition-duration: 0.5s;
-}
-
-.details-close {
-  color: #F00;
+  width: 20%;
 }
 
 .map-control-disabled {
   cursor: not-allowed;
-  opacity: 0.25;
+  opacity: 0.1;
+}
+
+.project-box {
+  border-radius: 5px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+}
+
+.project-box:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+
+img.sdg-icon {
+  width: 32px;
 }
 
 .zoomButton {
@@ -84,8 +92,26 @@
   display: none;
 }
 
-@media only screen and (max-width: 767px ) {
-  .title-bar {
-    font-size: 12px;
+
+/* styles to override certain things on medium/large screens */
+@media only screen and (min-width: 992px ) {
+
+  .country-name {
+    text-align: left;
   }
+
+  .controls {
+    text-align: right;
+  }
+
+  .map-control {
+    margin-left: 1em;
+    transition-duration: 0.5s;
+    width: auto;
+  }
+
+  img.sdg-icon {
+    width: 48px;
+  }
+
 }

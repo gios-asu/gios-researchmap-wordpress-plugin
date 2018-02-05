@@ -135,6 +135,10 @@ class WP_GIOS_Map_Shortcodes extends Hook {
       $url_to_script = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/js/gios-map.min.js';
       wp_enqueue_script( 'gios-map', $url_to_script, null, '1.0.0', false );
 
+      $wp_urls_to_pass = array(
+        'img_path' => plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/img'
+      );
+      wp_localize_script( 'gios-map', 'wpUrls', $wp_urls_to_pass );
     }
   }
 

@@ -1,22 +1,18 @@
-<div class="title-bar">
-  <span class="country-name"></span>
-  <span class="controls">
-    <i class="fa fa-search-plus map-control map-zoom-in">&nbsp;</i>
-    <i class="fa fa-search-minus map-control map-zoom-out">&nbsp;</i>
-    <i class="fa fa-globe map-control map-zoom-reset">&nbsp;</i>
-    <i class="fa fa-times-circle map-control details-close map-control-disabled">&nbsp;</i>
-  </span>
+<div class="title-bar row">
+  <div class="country-name col-md-8 h4"></div>
+  <div class="col-md-4 controls h4">
+      <i class="fa fa-search-plus map-control map-zoom-in">&nbsp;</i>
+      <i class="fa fa-search-minus map-control map-zoom-out">&nbsp;</i>
+      <i class="fa fa-globe map-control map-zoom-reset">&nbsp;</i>
+      <i class="fa fa-times-circle map-control details-close map-control-disabled">&nbsp;</i>
+  </div>
 </div>
 <div class="map-container">
   <div class="overlay"></div>
-  <div class="map">
+  <div id="research-map" class="gios-research-map">
     <h1>There Will Be Map</h1>
     <p>There's nothing here right now, but soon this template will use a <i>verrrrrry</i> long straw and it will drink your milkshake. It. Will. Drink. Your. Milkshake.</p>
-    <p>Oh, and just for fun, it's <b>{{ foo }}</b>, and <b>{{ bar }}</b>.</p>
   </div>
 </div>
-<div id="details">
-  <h4>Details Here</h4>
-  <p>The details of the projects will go here. There's nothing you can do about it. It's just going to happen.</p>
-</div>
+<div id="details"></div>
 <div class="tool-tip"></div>
