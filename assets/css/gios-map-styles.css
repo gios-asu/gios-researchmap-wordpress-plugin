@@ -5,7 +5,7 @@
 .tool-tip {
   background-color: #2F313D;
   border-radius: 5px;
-  box-shadow: 5px 5px 3px #293132;
+  box-shadow: 5px 5px 3px #AAA;
   color: #EFF2EE;
   display: none;
   line-height: 1em;
@@ -69,6 +69,18 @@
   cursor: not-allowed;
   opacity: 0.1;
 }
+
+.project-box {
+  border-radius: 5px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+}
+
+.project-box:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
 
 img.sdg-icon {
   width: 32px;
