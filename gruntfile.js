@@ -3,10 +3,9 @@ module.exports = function( grunt ) {
   grunt.initConfig({
     pkg: grunt.file.readJSON( 'package.json' ),
     jshint: {
-      dev: [ 'Gruntfile.js', 'gios/gios-map.js' ]
+      all: [ 'Gruntfile.js', 'gios/gios-map.js' ]
     },
     uglify: {
-      options: {},
       build: {
         /* Remember, this is a minify AND COPY step */
         src: 'gios/gios-map.js',
@@ -14,10 +13,9 @@ module.exports = function( grunt ) {
       }
     },
     csslint: {
-      dev: {
-        src: 'assets/css/styles.css'
-      }
+      src: 'assets/css/gios-map-styles.css'
     },
+    /*
     copy: {
         files: [
           {
@@ -29,13 +27,14 @@ module.exports = function( grunt ) {
           }
         ]
     },
+    */
     watch: {
       js: {
         files: [ 'gios/gios-map.js', 'gruntfile.js' ],
         tasks: [ 'jshint', 'uglify:build']
       },
       css: {
-        files: [ 'src/css/styles.css' ],
+        files: [ 'assets/css/gios-map-styles.css' ],
         tasks: [ 'csslint:dev' ]
       }
     }
@@ -49,6 +48,6 @@ module.exports = function( grunt ) {
   grunt.loadNpmTasks( 'grunt-contrib-csslint' );
 
   // define tasks
-  grunt.registerTask( 'default', [ 'jshint:dev', 'csslint:dev' ] );
-  grunt.registerTask( 'build', [ 'uglify', 'copy:build' ] );
+  grunt.registerTask( 'default', [ 'jshint', 'csslint' ] );
+  grunt.registerTask( 'build', [ 'uglify' ] );
 };
