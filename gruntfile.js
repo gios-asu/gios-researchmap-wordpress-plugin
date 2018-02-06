@@ -3,11 +3,11 @@ module.exports = function( grunt ) {
   grunt.initConfig({
     pkg: grunt.file.readJSON( 'package.json' ),
     jshint: {
-      all: [ 'Gruntfile.js', 'gios/gios-map.js' ]
+      gruntfile: [ 'gruntfile.js' ],
+      map: [ 'gios/gios-map.js' ]
     },
     uglify: {
       build: {
-        /* Remember, this is a minify AND COPY step */
         src: 'gios/gios-map.js',
         dest: 'assets/js/gios-map.min.js'
       }
@@ -15,25 +15,20 @@ module.exports = function( grunt ) {
     csslint: {
       src: 'assets/css/gios-map-styles.css'
     },
-    /*
-    copy: {
-        files: [
-          {
-            expand: true,
-            cwd: 'gios',
-            src: [ 'gios-map.js' ],
-            dest: 'assets/js',
-            filter: 'isFile'
-          }
-        ]
-    },
-    */
+    // Watching files for changes
     watch: {
-      js: {
-        files: [ 'gios/gios-map.js', 'gruntfile.js' ],
-        tasks: [ 'jshint', 'uglify:build']
+      gruntfile: {
+        // changes to the gruntfile make us lint the gruntfile itself
+        files: [ 'gruntfile.js' ],
+        tasks: [ 'jshint:gruntfile' ]
+      },
+      map: {
+        // updating the gios-map.js file lints, minifies, and copies to /assets/js
+        files: [ 'gios/gios-map.js' ],
+        tasks: [ 'jshint:map', 'uglify' ]
       },
       css: {
+        // changes to the CSS file triggers linting
         files: [ 'assets/css/gios-map-styles.css' ],
         tasks: [ 'csslint:dev' ]
       }
