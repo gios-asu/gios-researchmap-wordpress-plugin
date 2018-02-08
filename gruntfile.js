@@ -35,7 +35,7 @@ module.exports = function( grunt ) {
       css: {
         // changes to the CSS file triggers linting
         files: [ 'assets/css/gios-map-styles.css' ],
-        tasks: [ 'csslint:dev' ]
+        tasks: [ 'csslint' ]
       }
     }
   });
