@@ -19,14 +19,14 @@ $( document ).ready( function() {
       },
       "colors": {
         // colors used by jquery-mapael when drawing the map
-        "countries": "#EFF2EE",
-        "countryHover": "#EFF2EE",
-        "selectedCountryFill": "#0080FF",
+        "countries": "#7C7C7C",
+        "countryHover": "#7C7C7C",
+        "selectedCountryFill": "#FFB204",
         "borders": "#000",
-        "bubbleFill": "#0080FF",
-        "bubbleBorder": "#7F8E96",
+        "bubbleFill": "#FFB204",
+        "bubbleBorder": "#FFB204",
         "bubbleHoverFill": "",
-        "bubbleHoverBorder": "#0080FF",
+        "bubbleHoverBorder": "#FFB204",
         "textFill": "#FFF",
         "textBorder": "#000"
       },
@@ -49,7 +49,7 @@ $( document ).ready( function() {
         "sdgFormat": ".png"
       },
       "title": {
-        "default": "GIOS Research Map"
+        "default": "Wrigley Works Worldwide"
       }
     };
 
@@ -66,9 +66,10 @@ $( document ).ready( function() {
           enabled: true,
           touch: true,
           maxLevel: 30,
-          animDuration: 500
+          animDuration: 250
         },
-        name : 'world_countries_miller',
+        //name : 'world_countries_miller',
+        name: "world_countries_miller",
         cssClass: 'gios-research-map',
         defaultArea: {
           attrs: {
@@ -94,7 +95,7 @@ $( document ).ready( function() {
           size: 15,
           attrs: {
             fill: config.colors.bubbleFill,
-            'fill-opacity': 0.5,
+            'fill-opacity': 0.75,
             'stroke-width': 0
           },
           attrsHover: {
@@ -131,7 +132,7 @@ $( document ).ready( function() {
           updateMap( config.data.originalBubbles );
 
           // replace the country name with the default title
-          $( ".country-name" ).html( config.title.default);
+          $( "#country-name" ).html( config.title.default);
           });
         }
       }
@@ -170,24 +171,31 @@ $( document ).ready( function() {
      * Event handlers and callbacks we created ourselves.
      *************************************************************************/
     // zoom in button click
-    $( ".map-zoom-in:not(map-control-disabled)" ).click( function() {
-      $( ".gios-research-map" ).trigger( "zoom", { "level": "+5" } );
+    $( "#map-zoom-in" ).click( function() {
+      if( $(this).hasClass(".map-control-disabled" ) ) {
+        // do nothing
+      }else{
+        $( ".gios-research-map" ).trigger( "zoom", { "level": "+5" } );
+      }
     });
 
     // zoom out button click
-    $( ".map-zoom-out:not(map-control-disabled)" ).click( function() {
-      $( ".gios-research-map" ).trigger( "zoom", { "level": "-5" } );
-    });
-
-    // reset zoom button click
-    $( ".map-zoom-reset:not(map-control-disabled)" ).click( function() {
-      resetZoom();
+    $( "#map-zoom-out" ).click( function() {
+       if( $(this).hasClass("map-control-disabled" ) ) {
+        // do nothing
+      }else{
+        $( ".gios-research-map" ).trigger( "zoom", { "level": "-5" } );
+      }
     });
 
     // details close button click
-    $( ".details-close:not(map-control-disabled)" ).click( function() {
-      $( '.details-close' ).addClass( "map-control-disabled" );
-      endDetailMode();
+    $( "#details-close" ).click( function() {
+      if( $(this).hasClass( "map-control-disabled" ) ) {
+        console.log( "The close control is disabled" );
+      }else{
+        endDetailMode();
+      }
+
     });
 
     /**************************************************************************
@@ -253,10 +261,11 @@ $( document ).ready( function() {
     function scaleUp() {
       $( '.gios-research-map, .gios-research-map > svg' ).animate(
         { "height": config.dimensions.initialHeight+"px" },
-        500,
+        0,
         function() {
             $( ".overlay").fadeOut( "slow", function() {
-              $( '[class*="map-zoom"]' ).removeClass( 'map-control-disabled' );
+              $( '[class*="map-zoom"]' ).fadeIn( 'fast' );
+              $( ".gios-research-map > svg ").animate( {"opacity": 1}, 250 );
           });
         }
       );
@@ -273,13 +282,14 @@ $( document ).ready( function() {
       config.dimensions.initialHeight = $( '.gios-research-map > svg' ).height();
       config.dimensions.smallHeight = Math.floor( config.dimensions.initialHeight * 0.4 );
 
+      // animate the scaling-down of the map SVG and its container. When finished,
+      // fade in the overlay.
       $( '#research-map, #research-map > svg' ).animate(
         { "height": config.dimensions.smallHeight+"px" },
         500,
         function() {
-          $( ".overlay").fadeIn( "slow", function() {
-            $( '[class*="map-zoom"]' ).addClass( 'map-control-disabled' );
-            $( '.details-close' ).removeClass( "map-control-disabled" );
+          $( ".overlay").fadeIn( 250, function() {
+            $( '#details-close' ).removeClass( "map-control-disabled" );
           });
         });
     }
@@ -287,15 +297,17 @@ $( document ).ready( function() {
     /**
      * resetZoom()
      *
-     * Resets the map zoom to the initial state. This will send the afterZoom
-     * event, which we are listening for.
+     * Resets the map zoom to the initial state. This is only used when restoring the
+     * map to original size after it was in details mode
      */
     function resetZoom() {
-      // return the map to the default zoom
+    $( ".gios-research-map > svg ").css( "opacity", 0 );
+     // return the map to the default zoom
       $( '.gios-research-map' ).trigger( 'zoom', {
         level: 0,
         longitude: 0,
-        latitude: 0
+        latitude: 0,
+        animDuration: 0
       });
     }
 
@@ -305,7 +317,7 @@ $( document ).ready( function() {
      * Cleans up the details area by fading it out of view, and then deleting the HTML completely.
      */
     function clearDetails() {
-      $( "#details" ).fadeOut( "slow" ).empty();
+      $( "#details" ).fadeOut( "fast" );
     }
 
     /**
@@ -342,9 +354,13 @@ $( document ).ready( function() {
      * and scaled down to "header size". The "elemOptions" are the various jQuery-Mapael
      * properties of the plot/bubble that was selected.
      *
-     * This method is a hot mess, but
+     * This method is a hot mess, but...
      */
     function startDetailMode( elemOptions ) {
+
+      $( '[class*="map-zoom"]' ).fadeOut( 'fast' );
+      $( "#map-zoom-in, #map-zoom-out").addClass( "map-control-disabled" );
+
       // get the jquery-mapael info for the selected bubble
       var iso_code = elemOptions.iso;
 
@@ -447,9 +463,8 @@ $( document ).ready( function() {
       }
 
       // show the details
-      $( '.country-name' ).html( elemOptions.name );
+      $( '#country-name' ).html( elemOptions.name );
       $( '#details' ).show();
-
     }
 
     function endDetailMode() {
@@ -460,9 +475,10 @@ $( document ).ready( function() {
 
       config.zoom.detailMode = false;
       config.dimensions.scaleUp = true;
-      $( ".country-name" ).html( config.title.default );
-
-      $( ".overlay" ).fadeOut( "slow" );
+      $( "#country-name" ).html( config.title.default );
+      $( "#details-close" ).addClass( "map-control-disabled" );
+      $( "#map-zoom-in, #map-zoom-out" ).removeClass( "map-control-disabled" );
+      $( ".overlay" ).fadeOut( "fast" );
       resetBubbles();
       clearAreas();
       clearDetails();

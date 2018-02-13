@@ -38,8 +38,7 @@ class WP_GIOS_Map_Shortcodes extends Hook {
     $this->add_action( 'wp_enqueue_scripts', $this, 'wp_enqueue_scripts' );
     // $this->add_action( 'init', $this, 'setup_rewrites' );
     // $this->add_action( 'wp', $this, 'add_http_cache_header' );
-    // $this->add_action( 'wp_head', $this, 'add_html_cache_header' );
-
+    $this->add_action( 'wp_head', $this, 'add_mustache_tempate' );
     $this->add_shortcode( 'hello-world', $this, 'hello_world' );
     $this->add_shortcode( 'gios_map', $this, 'gios_map_shortcode_handler' );
   }
@@ -135,6 +134,8 @@ class WP_GIOS_Map_Shortcodes extends Hook {
       $url_to_script = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/js/gios-map.min.js';
       wp_enqueue_script( 'gios-map', $url_to_script, null, '1.0.0', false );
 
+
+
       $wp_urls_to_pass = array(
         'img_path' => plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/img'
       );
@@ -208,6 +209,35 @@ class WP_GIOS_Map_Shortcodes extends Hook {
     $view_name = 'gios-map-shortcode.gios-map-display';
     $response = $this->view( $view_name )->add_data( $atts )->build();
     return $response->content;
+    }
 
+    public function add_mustache_tempate() {
+      echo '<script id="template" type="x-tmpl-mustache">
+        {{#items}}
+        <div class="project-box">
+          <div class="row">
+            <div class="col-md-11 project-title">
+              {{#slug}}
+               <a href="{{slug}}" target="_blank">{{name}}</a>
+              {{/slug}}
+              {{^slug}}
+                {{name}}
+              {{/slug}}
+            </div>
+            <div class="col-md-1 hidden-sm hidden-xs">
+              <img src="{{sdg}}" class="sdg-icon" />
+            </div>
+          </div>
+
+          {{#description}}
+            <div class="row">
+              <div class="col-md-11 project-description">
+                <p>{{ description }}</p>
+              </div>
+            </div>
+          {{/description}}
+         </div>
+        {{/items}}
+      </script>';
     }
 }

@@ -1,11 +1,35 @@
+#content {
+  background-color: #2D2D2D;
+}
+
 .map-container {
   position: relative;
 }
 
+#gios-map-container {
+  overflow: hidden;
+}
+
+h2 {
+  color: #FFF;
+}
+
+h4 {
+  color: #FFB204;
+}
+
+#gios-map-container p {
+  color: #FFF;
+}
+
+.asu-breadcrumbs {
+  display: none;
+  }
+
 .tool-tip {
   background-color: #2F313D;
   border-radius: 5px;
-  box-shadow: 5px 5px 3px #AAA;
+  box-shadow: 5px 5px 3px #000;
   color: #EFF2EE;
   display: none;
   line-height: 1em;
@@ -14,12 +38,9 @@
 }
 
 .gios-research-map {
-  background-color: #FFF;
-  border: 1px solid #EEE;
-  border-radius: 5px;
+  /* background-color: #2D2D2D; */
   line-height: 0; /* for some reason, this prevents a small padding at the bottom of the map */
   overflow: hidden;
-
 }
 
 .morecontent span {
@@ -31,11 +52,10 @@
 }
 
 .title-bar {
-  background-color: #FFF;
-  color: #333;
-  /* font-size: 28px; */
+  color: #FFF;
+  font-size: 28px;
+  margin: 0 0;
   text-align: center;
-  z-index: 100;
 }
 
 .overlay {
@@ -51,10 +71,6 @@
   z-index: 110;
 }
 
-.country-name {
-  /* font-weight: bold; */
-}
-
 .controls {
   text-align: center;
   }
@@ -62,26 +78,34 @@
 .map-control {
   color: #0080FF;
   cursor: pointer;
-  transition-duration: 0.5s;
-  width: 20%;
+  font-size: 48px;
+}
+
+.project-title {
+  color: #FFB204;
+  font-weight: bold;
 }
 
 .map-control-disabled {
+  color: #555;
   cursor: not-allowed;
-  opacity: 0.1;
 }
 
 .project-box {
-  border-radius: 5px;
-  padding: 1.25rem;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-  webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  margin-bottom: 1.5rem;
+  margin-left: 15px;
+  margin-right: 15px;
+  padding-bottom: 1rem;
 }
 
 .project-box:not(:last-child) {
-  margin-bottom: 1.5rem;
+  /* border-bottom: 1px solid #FFB204; */
+  border-bottom: 1px solid #555;
 }
 
+.project-description {
+  margin-top: 1rem;
+}
 
 img.sdg-icon {
   width: 32px;
@@ -92,26 +116,36 @@ img.sdg-icon {
   display: none;
 }
 
+/**
+ * Media Queries
+ */
 
-/* styles to override certain things on medium/large screens */
-@media only screen and (min-width: 992px ) {
-
-  .country-name {
+@media only screen and (min-width: 768px ) {
+   #country-name {
     text-align: left;
   }
 
+  .project-title {
+    font-size: 1.225em;
+    line-height: 1.3em;
+  }
+}
+
+@media only screen and (min-width: 992px ) {
+
   .controls {
     text-align: right;
+    z-index: 999;
   }
 
   .map-control {
-    margin-left: 1em;
+    margin-left: 0.5em;
     transition-duration: 0.5s;
     width: auto;
   }
 
   img.sdg-icon {
-    width: 48px;
+    width: 32px;
   }
 
 }
