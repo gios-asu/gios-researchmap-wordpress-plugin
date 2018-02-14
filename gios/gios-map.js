@@ -122,7 +122,7 @@ $( document ).ready( function() {
         afterInit: function() {
 
           // read the data file. On success, create tooltips, save the data, and update the map
-          projectList = $.getJSON( 'https://researchmap.api.dev.gios.asu.edu/v1/locations' ).done( function( response ) {
+          projectList = $.getJSON( 'https://researchmap.api.gios.asu.edu/v1/locations' ).done( function( response ) {
             $.each( response, function( key, value ) {
               value.tooltip = { content: value.name };
             });
