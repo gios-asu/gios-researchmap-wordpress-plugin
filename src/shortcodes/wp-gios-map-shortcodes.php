@@ -203,20 +203,35 @@ class WP_GIOS_Map_Shortcodes extends Hook {
     if ( ! is_array( $atts ) ) {
       $atts = array();
     }
+
+    /*
     ensure_default( $atts, 'foo', 'Foo!' );
     ensure_default( $atts, 'bar', 'Bar!' );
+    */
 
     $view_name = 'gios-map-shortcode.gios-map-display';
     $response = $this->view( $view_name )->add_data( $atts )->build();
     return $response->content;
     }
 
+    /**
+     * add_mustache_template()
+     *
+     * I wanted to avoid having to copy/paste the template directly into WordPress (alongside
+     * the shortcode), so I looked for the best way to get this non-javascript file into a
+     * WordPress page. Turns out, the best/easiest way is to use the wp_head() hook, and just
+     * echo the script text itself via a function.
+     *
+     * Wordpress is funny about what it will enqueue, and you can't enqueue a .mustache file,
+     * nor can you enqueue a javascript file with actual <script> tags (because that's HTML).
+     * So, this was my solution.
+     */
     public function add_mustache_tempate() {
       echo '<script id="template" type="x-tmpl-mustache">
         {{#items}}
         <div class="project-box">
           <div class="row">
-            <div class="col-md-11 project-title">
+            <div class="col-xs-10 project-title">
               {{#slug}}
                <a href="{{slug}}" target="_blank">{{name}}</a>
               {{/slug}}
@@ -224,14 +239,14 @@ class WP_GIOS_Map_Shortcodes extends Hook {
                 {{name}}
               {{/slug}}
             </div>
-            <div class="col-md-1 hidden-sm hidden-xs">
+            <div class="col-xs-2 text-right">
               <img src="{{sdg}}" class="sdg-icon" />
             </div>
           </div>
 
           {{#description}}
             <div class="row">
-              <div class="col-md-11 project-description">
+              <div class="col-xs-10 project-description">
                 <p>{{ description }}</p>
               </div>
             </div>
