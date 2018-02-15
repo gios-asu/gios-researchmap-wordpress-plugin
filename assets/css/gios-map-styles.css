@@ -10,6 +10,10 @@
   overflow: hidden;
 }
 
+#details {
+  display: none;
+}
+
 h2 {
   color: #F00;
 }
@@ -102,6 +106,11 @@ h4 {
 .project-box:not(:last-child) {
   /* border-bottom: 1px solid #FFB204; */
   border-bottom: 1px solid #555;
+}
+
+.project-box:last-child {
+  margin: 0;
+  padding: 0;
 }
 
 .project-description {

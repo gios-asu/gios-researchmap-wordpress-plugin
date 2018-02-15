@@ -246,7 +246,7 @@ class WP_GIOS_Map_Shortcodes extends Hook {
 
           {{#description}}
             <div class="row">
-              <div class="col-xs-10 project-description">
+              <div class="col-xs-12 project-description">
                 <p>{{ description }}</p>
               </div>
             </div>

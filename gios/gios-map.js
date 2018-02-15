@@ -168,7 +168,8 @@ $( document ).ready( function() {
     /**************************************************************************
      * Custom Events/Hooks
      *
-     * Event handlers and callbacks we created ourselves.
+     * Event handlers and callbacks we created ourselves. The logic here is
+     * backwards (checking for )
      *************************************************************************/
     // zoom in button click
     $( "#map-zoom-in" ).click( function() {
@@ -191,7 +192,7 @@ $( document ).ready( function() {
     // details close button click
     $( "#details-close" ).click( function() {
       if( $(this).hasClass( "map-control-disabled" ) ) {
-        console.log( "The close control is disabled" );
+        // do nothing
       }else{
         endDetailMode();
       }
@@ -265,7 +266,7 @@ $( document ).ready( function() {
         function() {
             $( ".overlay").fadeOut( "slow", function() {
               $( '[class*="map-zoom"]' ).fadeIn( 'fast' );
-              $( ".gios-research-map > svg ").animate( {"opacity": 1}, 250 );
+              $( ".gios-research-map > svg ").animate( {"opacity": 1}, 250, clearDetails() );
           });
         }
       );
@@ -317,7 +318,7 @@ $( document ).ready( function() {
      * Cleans up the details area by fading it out of view, and then deleting the HTML completely.
      */
     function clearDetails() {
-      $( "#details" ).fadeOut( "fast" );
+      $( "#details" ).fadeOut( 250 );
     }
 
     /**
@@ -414,7 +415,6 @@ $( document ).ready( function() {
       }
 
       // tell the map to zoom in
-
       $( '.gios-research-map' ).trigger( 'zoom', {
         level: zoomLevel,
         longitude: zoomLong,
@@ -442,7 +442,6 @@ $( document ).ready( function() {
        * the template. We loop through all those and truncate if needed, adding the classes needed
        * to show/hide text.
        */
-
       if( $( ".more" ).length  >= config.truncation.minimumRequired ) {
         $('.more').each(function() {
           // get the text
@@ -464,14 +463,10 @@ $( document ).ready( function() {
 
       // show the details
       $( '#country-name' ).html( elemOptions.name );
-      $( '#details' ).show();
+      $( '#details' ).fadeIn( "slow" );
     }
 
     function endDetailMode() {
-
-      // disable the zoom buttons (except for the reset button)
-      // $( '[class*="map-zoom"]' ).removeClass( 'map-control-disabled' );
-      // $( '.details-close' ).addClass( "map-control-disabled" );
 
       config.zoom.detailMode = false;
       config.dimensions.scaleUp = true;
@@ -481,7 +476,6 @@ $( document ).ready( function() {
       $( ".overlay" ).fadeOut( "fast" );
       resetBubbles();
       clearAreas();
-      clearDetails();
       resetZoom();
     }
 
