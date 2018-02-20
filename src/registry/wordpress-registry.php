@@ -6,5 +6,5 @@
 
 return [
   wpGiosMap\Shortcodes\WP_GIOS_Map_Shortcodes::class,
-  wpGiosMap\Admin\WP_GIOS_Map_Admin_Page::class,
+  // wpGiosMap\Admin\WP_GIOS_Map_Admin_Page::class,
 ];

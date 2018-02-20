@@ -22,8 +22,8 @@ class WP_GIOS_Map_Admin_Page extends Hook {
   public static $section_name = 'wp-gios-map-section_name';
   public static $page_name = 'wp-gios-map-admin-page';
 
-  public static $setting_one_option_name = 'setting_one';
-  public static $setting_two_option_name = 'setting_two';
+  public static $setting_one_option_name = 'country_color';
+  public static $setting_two_option_name = 'bubble_color';
 
  public function __construct( $version = '0.1' ) {
     parent::__construct( $version );
@@ -65,7 +65,7 @@ class WP_GIOS_Map_Admin_Page extends Hook {
 
     add_settings_section(
         self::$section_id,
-        'WP GIOS Map Settings',
+        'Map Colors',
         array(
           $this,
           'print_section_info',
@@ -75,7 +75,7 @@ class WP_GIOS_Map_Admin_Page extends Hook {
 
     add_settings_field(
         self::$setting_one_option_name,
-        'Setting One Example',
+        'Country Color',
         array(
           $this,
           'setting_one_on_callback',
@@ -86,7 +86,7 @@ class WP_GIOS_Map_Admin_Page extends Hook {
 
     add_settings_field(
         self::$setting_two_option_name,
-        'Setting Two Example',
+        'Bubble Color',
         array(
           $this,
           'setting_two_on_callback',
@@ -97,8 +97,8 @@ class WP_GIOS_Map_Admin_Page extends Hook {
   }
 
   public function admin_menu() {
-    $page_title = 'WP GIOS Map Plugin Settings';
-    $menu_title = 'WP GIOS Map';
+    $page_title = 'Research Map Settings';
+    $menu_title = 'Research Map';
     $capability = 'manage_options';
     $path = plugin_dir_url( __FILE__ );
 
@@ -196,7 +196,7 @@ HTML;
   public function form_submit( $input ) {
     // intval the setting_one_option_name
     if ( isset( $input[ self::$setting_one_option_name ] ) ) {
-      $input[ self::$setting_one_option_name ] = intval( $input[ self::$setting_one_option_name ] );
+      $input[ self::$setting_one_option_name ] = strtoupper( $input[ self::$setting_one_option_name ] );
     }
 
     if ( isset( $input[ self::$setting_two_option_name ] ) ) {
