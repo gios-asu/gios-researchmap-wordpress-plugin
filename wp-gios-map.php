@@ -19,11 +19,12 @@ if ( ! function_exists( 'add_filter' ) ) {
   exit();
 }
 
-define( 'WP_GIOS_MAP_PLUGIN_VERSION', '1.1.2' );
+define( 'WP_GIOS_MAP_PLUGIN_VERSION', '1.0.0' );
 
 require __DIR__ . '/vendor/autoload.php';
 
-$registry = new \Honeycomb\Services\Register();
+//$registry = new \Honeycomb\Services\Register();
+$registry = new \Honeycomb\Services\Register;
 $registry->register(
     require __DIR__ . '/src/registry/wordpress-registry.php'
 );
