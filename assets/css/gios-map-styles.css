@@ -1,161 +1,178 @@
+/**
+ * gios-map-styles.csss
+ *
+ * Styles for the GIOS research map Wordpress plugin.
+ *
+ * I've tried to organize them like this:
+ *  1) Global styles affecting the whole page and/or theme elements
+ *  2) Map specific styles, organized (and indented) in a way that matches
+ *  the layout of the page elements themselves.
+ */
+
+/* Styling the content area that will be present as part of our theme */
 #content {
   background-color: #2D2D2D;
 }
 
-.map-container {
-  position: relative;
+/* Hiding the breadcrumbs */
+.asu-breadcrumbs {
+  display: none;
 }
 
+/* The gios-map-container is the parent of the map, holding the title bar, the map, the details
+ * area, etc. */
 #gios-map-container {
   overflow: hidden;
 }
 
-#details {
-  display: none;
-}
-
-h2 {
-  color: #F00;
-}
-
-h4 {
-  color: #FFB204;
-}
-
-#gios-map-container p {
-  color: #FFF;
-}
-
-.asu-breadcrumbs {
-  display: none;
+  #gios-map-container p {
+    color: #FFF;
   }
 
-.tool-tip {
-  background-color: #2F313D;
-  border-radius: 5px;
-  box-shadow: 5px 5px 3px #000;
-  color: #EFF2EE;
-  display: none;
-  line-height: 1em;
-  padding: 0.25em;
-  position: absolute;
-}
-
-.gios-research-map {
-  /* background-color: #2D2D2D; */
-  line-height: 0; /* for some reason, this prevents a small padding at the bottom of the map */
-  overflow: hidden;
-}
-
-.morecontent span {
-  display: none;
-}
-
-.title-bar {
-  color: #FFF;
-  font-size: 28px;
-  margin: 0 0;
-  text-align: center;
-}
-
-.overlay {
-  background-image: url( "../img/striped-bg.png" );
-  background-repeat: repeat;
-  display: none;
-  height: 100%;
-  left:0;
-  opacity: 0.1;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 110;
-}
-
-.controls {
-  text-align: center;
+  /* Controls inside the title bar */
+  #country-name {
+    color: #FFF;
+    font-size: 1.25em;
+    text-align: center;
   }
 
-.map-control {
-  color: #0080FF;
-  cursor: pointer;
-  font-size: 48px;
-  margin-left: 1.5em;
-}
+  .controls {
+    text-align: center;
+  }
 
-.project-title {
-  color: #FFB204;
-  font-weight: bold;
-}
+  .map-control {
+    color: #0080FF;
+    cursor: pointer;
+    font-size: 48px;
+    padding: 0 1.5em;
+  }
 
-.map-control-disabled {
-  color: #555;
-  cursor: not-allowed;
-  opacity: 0.5;
-}
+  .map-control-disabled {
+    color: #555;
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 
-.disclaimer {
-  color: #666;
-  margin-top: 1.5rem;
-}
+  /* The overlay superimposed on the map when it's in small mode */
+  .overlay {
+    background-image: url( "../img/striped-bg.png" );
+    background-repeat: repeat;
+    display: none;
+    height: 100%;
+    left:0;
+    opacity: 0.1;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 110;
+  }
 
-.project-box {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-}
+  /* The direct parent of the map. Position relative or the map gets all messed up */
+  .map-container {
+    position: relative;
+  }
 
-.project-box:not(:last-child) {
-  /* border-bottom: 1px solid #FFB204; */
-  border-bottom: 1px solid #555;
-}
+  /* The actual map container. Hide the overflow or the SVG will break through */
+  .gios-research-map {
+    line-height: 0; /* for some reason, this prevents a small gap at the bottom of the map */
+    overflow: hidden;
+  }
 
-.project-box:last-child {
-  margin: 0;
-  padding: 0;
-}
+    /* styling tool tips. If you don't use position: absolute, you can have a fixed tips area somewhere */
+    .tool-tip {
+      background-color: #2F313D;
+      border-radius: 5px;
+      box-shadow: 5px 5px 3px #000;
+      color: #EFF2EE;
+      display: none;
+      line-height: 1em;
+      padding: 0.25em;
+      position: absolute;
+    }
 
-.project-description {
-  margin-top: 1rem;
-}
+    /* Hide the map's built-in zoom controls, since we are using our own */
+    .zoomButton {
+      display: none;
+    }
 
-img.sdg-icon {
-  width: 32px;
-}
+  /* Project details. Hidden by default. */
+  #details {
+    display: none;
+  }
 
-.zoomButton {
-  /* To hide the map's built-in zoom controls, since we are using our own */
-  display: none;
-}
+    /* Project details live inside project boxes */
+    .project-box {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+    }
+
+    /* bottom borders on all but the last box */
+    .project-box:not(:last-child) {
+      border-bottom: 1px solid #555;
+    }
+
+    /* remove the padding/margin from the last project box. It was all at the bottom */
+    .project-box:last-child {
+      margin: 0;
+      padding: 0;
+    }
+
+      /* Titles for projects */
+      .project-title {
+        color: #FFB204;
+        font-weight: bold;
+      }
+
+      /* SDG Icons that appear next to project titles */
+      .sdg-icon {
+        width: 32px;
+      }
+
+      /* Actual project description text */
+      .project-description {
+        margin-top: 1rem;
+      }
+
+      /* Our 'Read More' links reveal the full text <span>, which is hidden by this class */
+      .morecontent span {
+        display: none;
+      }
+
+  /* The disclaimer text below the map */
+  .disclaimer {
+    color: #666;
+    margin-top: 1.5rem;
+  }
 
 /**
  * Media Queries
  */
 
+/**
+ * Styles that change at medium size
+ */
 @media only screen and (min-width: 768px ) {
-   #country-name {
+
+   /* Once We get to mid-sized screen, we can move our country name over to the left */
+  #country-name {
     text-align: left;
   }
 
-  .project-title {
-    font-size: 1.225em;
-    line-height: 1.3em;
-  }
-}
-
-@media only screen and (min-width: 992px ) {
-
+  /* At medium width, push the control buttons to the right */
   .controls {
     text-align: right;
     z-index: 999;
   }
 
+  /* At medium width, space out the buttons a bit less */
   .map-control {
-    margin-left: 0.5em;
     transition-duration: 0.5s;
-    width: auto;
+    padding: 0 1em;
   }
 
-  img.sdg-icon {
-    width: 32px;
+  /* Title sizes for medium or larger screens */
+  .project-title {
+    font-size: 1.225em;
+    line-height: 1.3em;
   }
-
 }
