@@ -21,7 +21,7 @@ class WP_GIOS_Map_Shortcodes extends Hook {
 
   private $path_to_views;
 
-  const EXAMPLE_CLASS_CONSTANT  = 'Example Class Constant Value';
+  // const EXAMPLE_CLASS_CONSTANT  = 'Example Class Constant Value';
 
   public function __construct() {
     parent::__construct( 'wp-gios-map-shortcodes', WP_GIOS_MAP_PLUGIN_VERSION );
@@ -39,7 +39,6 @@ class WP_GIOS_Map_Shortcodes extends Hook {
     // $this->add_action( 'init', $this, 'setup_rewrites' );
     // $this->add_action( 'wp', $this, 'add_http_cache_header' );
     $this->add_action( 'wp_head', $this, 'add_mustache_tempate' );
-    $this->add_shortcode( 'hello-world', $this, 'hello_world' );
     $this->add_shortcode( 'gios_map', $this, 'gios_map_shortcode_handler' );
   }
 
@@ -72,17 +71,6 @@ class WP_GIOS_Map_Shortcodes extends Hook {
       header( 'Pragma: no-Cache' );
       header( 'Expires: 0' );
     }
-  }
-
-  /**
-   * Returns true if the page is using the [hello-world] shortcode, else false
-   *
-   * Don't enqueue any scripts or stylesheets provided by this plugin,
-   * unless we are actually rendering the shortcode
-   */
-  private function current_page_has_hello_world_shortcode() {
-    global $post;
-    return ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'hello-world' ) );
   }
 
   /**
@@ -135,82 +123,39 @@ class WP_GIOS_Map_Shortcodes extends Hook {
       wp_enqueue_script( 'gios-map', $url_to_script, null, '1.0.0', false );
 
 
-
+      /**
+       * use the wp_localize_script() method to add a Javascript object to our page. The object
+       * contains the image path variable set here. Our Javascript expects this object to exist
+       * on page load.
+       */
       $wp_urls_to_pass = array(
         'img_path' => plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/img'
-      );
+        );
       wp_localize_script( 'gios-map', 'wpUrls', $wp_urls_to_pass );
     }
   }
 
   /**
-   * Handle the shortcode [hello-world]
-   *   attributes:
-   *     first_var  = 'value' or leave blank for the default value: 'default value'
-   *     second_var = integer example value
-   *     test_mode  = 'test' or leave blank for the default production
-   */
-  public function hello_world( $atts, $content = '' ) {
-    // if there are no attributes passed then $atts is not an array, its a string
-    if ( ! is_array( $atts ) ) {
-      $atts = array();
-    }
-    ensure_default( $atts, 'first_var', null );
-    ensure_default( $atts, 'second_var', 0 );
-
-    // shortcode attributes are always passed as strings. this ensures the value is parsed as a Boolean
-    // TRUE if 'true', 1, or 'on' is used (and FALSE otherwise.)
-    $atts['test_mode'] = filter_var( $atts['test_mode'], FILTER_VALIDATE_BOOLEAN );
-
-    $view_data = array(
-      'example_class_constant' => self::EXAMPLE_CLASS_CONSTANT,
-      'current_page_url' => get_permalink(),
-      'setting_one' => $this->get_option_attribute_or_default(
-          array(
-            'name'      => WP_GIOS_Map_Admin_Page::$options_name,
-            'attribute' => WP_GIOS_Map_Admin_Page::$setting_one_option_name,
-            'default'   => 'default value',
-          )
-      ),
-      'setting_two' => $this->get_option_attribute_or_default(
-          array(
-            'name'      => WP_GIOS_Map_Admin_Page::$options_name,
-            'attribute' => WP_GIOS_Map_Admin_Page::$setting_two_option_name,
-            'default'   => 0,
-          )
-      )
-    );
-
-    if ( isset( $atts['test_mode'] ) && 0 === strcasecmp( 'test', $atts['test_mode'] ) ) {
-      $view_data['testmode'] = 'Test';
-    } else {
-      $view_data['testmode'] = 'Prod'; // default to production mode
-    }
-
-    $view_name = 'hello-world-shortcode.hello-world-detail';
-
-    $response = $this->view( $view_name )->add_data( $view_data )->build();
-    return $response->content;
-  }
-
-
-  /**
    * gios_map_shortcode_handler( array|string $atts)
    *
-   * This is the shortcode used to draw the research map.
+   * This is the shortcode used to draw the research map. All it really does
+   * is return the necessary markup. We're not passing anything to the map (right now),
+   * so lines pertaining to attributes are commented out.
    */
    public function gios_map_shortcode_handler( $atts, $content = "" ) {
+
+    /*
     if ( ! is_array( $atts ) ) {
       $atts = array();
     }
 
-    /*
     ensure_default( $atts, 'foo', 'Foo!' );
     ensure_default( $atts, 'bar', 'Bar!' );
     */
 
     $view_name = 'gios-map-shortcode.gios-map-display';
-    $response = $this->view( $view_name )->add_data( $atts )->build();
+    //$response = $this->view( $view_name )->add_data( $atts )->build();
+    $response = $this->view( $view_name )->build();
     return $response->content;
     }
 
@@ -222,9 +167,9 @@ class WP_GIOS_Map_Shortcodes extends Hook {
      * WordPress page. Turns out, the best/easiest way is to use the wp_head() hook, and just
      * echo the script text itself via a function.
      *
-     * Wordpress is funny about what it will enqueue, and you can't enqueue a .mustache file,
-     * nor can you enqueue a javascript file with actual <script> tags (because that's HTML).
-     * So, this was my solution.
+     * Wordpress is strict about what it will enqueue, and you can't enqueue a .mustache file,
+     * nor can you enqueue a file with actual <script> tags, as required by mustache. So, I put
+     * it here.
      */
     public function add_mustache_tempate() {
       echo '<script id="template" type="x-tmpl-mustache">
