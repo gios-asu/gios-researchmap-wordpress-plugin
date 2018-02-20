@@ -11,7 +11,7 @@ $( document ).ready( function() {
     var config = {
       // for the more/less links in article summaries
       "truncation": {
-        "minimumRequired": 3,
+        "minimumRequired": 3, // min. number of projects on page to trigger truncation
         "showChar": 150,
         "ellipsestext": "...",
         "moretext": "[More]",
@@ -31,6 +31,7 @@ $( document ).ready( function() {
         "textBorder": "#000"
       },
       "zoom": {
+        // internal tracker for whether or not we're in "small" mode
         "detailMode": false
       },
       "dimensions": {
@@ -45,10 +46,12 @@ $( document ).ready( function() {
         "highlightedAreas": []
       },
       "images": {
+        // used to build our image paths
         "sdgPath": "sdg-",
         "sdgFormat": ".png"
       },
       "title": {
+        // what to show when we're not looking at a specific country name
         "default": "Wrigley Works Worldwide"
       }
     };
@@ -121,8 +124,16 @@ $( document ).ready( function() {
         },
         afterInit: function() {
 
-          // read the data file. On success, create tooltips, save the data, and update the map
+          /**
+           * Read the data file. On success, create tooltips, save the data, and update the map.
+           */
           projectList = $.getJSON( 'https://researchmap.api.gios.asu.edu/v1/locations' ).done( function( response ) {
+
+            /**
+             * Loops through the JSON data we got from the server (called 'response') and adds
+             * the 'area' name as a tool tip. In jQuery Mapael, regions on a map are called 'areas' and,
+             * on a map of the whole world, those areas are countries. So we are getting country names here.
+             */
             $.each( response, function( key, value ) {
               value.tooltip = { content: value.name };
             });
@@ -168,8 +179,10 @@ $( document ).ready( function() {
     /**************************************************************************
      * Custom Events/Hooks
      *
-     * Event handlers and callbacks we created ourselves. The logic here is
-     * backwards (checking for )
+     * Event handlers and callbacks we created ourselves. I know that the logic
+     * looks weird here, but attempt to use jQuery's not() method - to trap
+     * clicks that are on buttons who do NOT have the disabled class - were not
+     * working as expected; hasClass(), however, worked the way I wanted.
      *************************************************************************/
     // zoom in button click
     $( "#map-zoom-in" ).click( function() {
@@ -210,6 +223,10 @@ $( document ).ready( function() {
      * updateMap( object dataBubbles )
      *
      * Draws new plots (aka "bubbles") on the map, using a provided data object.
+     *
+     * Note: Mapael would let us update other things (color certain areas, draw
+     * lines on the map, etc.), but we're only drawing the circular 'plots', which
+     * I have been calling 'bubbles'.
      */
     function updateMap( dataBubbles ) {
       // Updates just the "plots" (or "bubbles") on the map.
@@ -224,14 +241,17 @@ $( document ).ready( function() {
      *
      * To 'clear' any existing highlighted countries (aka 'areas'), we set the fill
      * back to the original color. To do this, we loop through our config.data.highlightedAreas
-     * array (which will almost always hold only one item) and return it to the default
-     * color. We also clear the country's on-screen text and call Mapael's update method.
+     * array and return any areas found in there to the default color. We also clear the
+     * country's on-screen text and call Mapael's update method.
      */
     function clearAreas() {
       // this will hold the new values for any country in the config.data.highlightedAreas array
       var updatedAreas = { areas: {} };
 
-      // for each highlighted country, reset its settings
+      /**or each highlighted country, reset its settings. We are pulling the colors from
+       * our global config object. The 'attrs', 'attrsHover', and 'text' items are properties
+       * of Mapael areas.
+       */
       config.data.highlightedAreas.forEach( function( item, index ) {
         updatedAreas.areas[ item ] = {
           attrs: {
@@ -257,7 +277,9 @@ $( document ).ready( function() {
     /**
      * scaleUp()
      *
-     * Returns the map SVG, and its container, to the original size
+     * Returns the map SVG, and its container, to the original size. Because we are
+     * hiding the map while this happens, the last line of the callback below brings
+     * the map back into view by animating its opacity back to 1.
      */
     function scaleUp() {
       $( '.gios-research-map, .gios-research-map > svg' ).animate(
@@ -281,6 +303,8 @@ $( document ).ready( function() {
 
       // save our SVG height, and the half-size measurement for later
       config.dimensions.initialHeight = $( '.gios-research-map > svg' ).height();
+
+      // make the smaller height a specific percentage of the original
       config.dimensions.smallHeight = Math.floor( config.dimensions.initialHeight * 0.4 );
 
       // animate the scaling-down of the map SVG and its container. When finished,
@@ -315,7 +339,7 @@ $( document ).ready( function() {
     /**
      * clearDetails()
      *
-     * Cleans up the details area by fading it out of view, and then deleting the HTML completely.
+     * Cleans up the details area by fading it out of view.
      */
     function clearDetails() {
       $( "#details" ).fadeOut( 250 );
@@ -355,10 +379,11 @@ $( document ).ready( function() {
      * and scaled down to "header size". The "elemOptions" are the various jQuery-Mapael
      * properties of the plot/bubble that was selected.
      *
-     * This method is a hot mess, but...
+     * This method is a hot mess and needs to be fixed up later.
      */
     function startDetailMode( elemOptions ) {
 
+      // fade out our two zoom buttons, and add our disabled class
       $( '[class*="map-zoom"]' ).fadeOut( 'fast' );
       $( "#map-zoom-in, #map-zoom-out").addClass( "map-control-disabled" );
 
@@ -400,7 +425,7 @@ $( document ).ready( function() {
       $( '.gios-research-map' ).trigger( 'update', [{
         mapOptions: updatedOptions,
         deletePlotKeys: 'all',
-        animDuration: 100,
+        animDuration: 500,
         afterUpdate: function() {
         }
       }]);
@@ -439,8 +464,9 @@ $( document ).ready( function() {
 
       /**
        * Truncate the project descriptions. Each description has a default class of '.more' in
-       * the template. We loop through all those and truncate if needed, adding the classes needed
-       * to show/hide text.
+       * the template, so counting the number of occurences of the class 'more',  lets us know if
+       * we need to loop through and truncate text. This ends up creating to copies of the text: a
+       * truncated one (with the class 'more'), and a full-length one (with the class 'less').
        */
       if( $( ".more" ).length  >= config.truncation.minimumRequired ) {
         $('.more').each(function() {
@@ -466,14 +492,26 @@ $( document ).ready( function() {
       $( '#details' ).fadeIn( "slow" );
     }
 
+    /**
+     * Return the map from detail (aka 'small') mode to its full-sized version.
+     */
     function endDetailMode() {
 
+      // set our internal trackers
       config.zoom.detailMode = false;
       config.dimensions.scaleUp = true;
+
+      // restore the country name to the default map title
       $( "#country-name" ).html( config.title.default );
+
+      // disable the details-close button and bring back the zoom buttons
       $( "#details-close" ).addClass( "map-control-disabled" );
       $( "#map-zoom-in, #map-zoom-out" ).removeClass( "map-control-disabled" );
+
+      // get rid of the overlay
       $( ".overlay" ).fadeOut( "fast" );
+
+      // Load the original bubbles, clear any highlighted country, and zoom back out
       resetBubbles();
       clearAreas();
       resetZoom();
@@ -485,8 +523,8 @@ $( document ).ready( function() {
      * versions) when you click links.
      *
      * Note: we've attached the listener to the #details <div> itself because the content changes/disappears
-     * all the time, but the <div> is always there. The event bubbles up to the .moreLink class on the paragraphs
-     * to do the truncation work.
+     * all the time, but the #details <div> is always there. The event bubbles up to the .moreLink class on the
+     * paragraphs to do the truncation work.
      */
     $("#details").on( "click", ".morelink", function() {
 
@@ -502,8 +540,8 @@ $( document ).ready( function() {
       $(this).parent().prev().toggle();
       $(this).prev().toggle();
 
+      // don't follow links
       return false;
     });
-
 
 });
