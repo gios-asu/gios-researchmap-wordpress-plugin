@@ -1,6 +1,9 @@
 # wp-gios-map
 A WordPress plugin for displaying the GIOS research map
 
+# Version
+1.0.0
+
 # Requirements
 Not precisely known at this time; whatever Docker magic we have lined up.
 
