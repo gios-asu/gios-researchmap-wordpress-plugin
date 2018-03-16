@@ -12,8 +12,10 @@
     <div id="research-map" class="gios-research-map"></div>
   </div>
   <div id="details" class="container"></div>
-  <div class="disclaimer small text-center">
-    This map represents only a sample of the research projects, and other global activities, of the Julie Ann Wrigley Institute of Sustainability. For more information, <a href="#">click here</a>.
-  </div>
+  {{#if disclaimer}}
+    <div class="disclaimer small text-center">
+      This map represents only a sample of the research projects, and other global activities, of the Julie Ann Wrigley Institute of Sustainability. For more information, <a href="/research">click here</a>.
+    </div>
+  {{/if}}
   <div class="tool-tip"></div>
 </div>

@@ -138,24 +138,53 @@ class WP_GIOS_Map_Shortcodes extends Hook {
   /**
    * gios_map_shortcode_handler( array|string $atts)
    *
-   * This is the shortcode used to draw the research map. All it really does
-   * is return the necessary markup. We're not passing anything to the map (right now),
-   * so lines pertaining to attributes are commented out.
+   * This is the shortcode used to draw the research map. It supports (at this time),
+   * one attribute, named 'disclaimer', that is used to toggle a <div> in the Handlebars
+   * template. that <div> shows a text disclaimer under the map. Edit the file in
+   * "/src/views/gios-map-shortcode/gios-map-display.handlebars" to change the text that
+   * appears on screen.
+   *
+   * Also, I have commented out the use of some custom functions we wrote to provide default
+   * attribute values. That is already possible through the use of Wordpress's shortcode_atts()
+   * method, and I figure it's best to use the built-in stuff.
+   *
+   * By using shortcode_atts(), we can also provide the name of the shortcode to enable filtering
+   * of the values. We use that here to convert the 'disclaimer' attribute to it's corresponding
+   * boolean value. That way, setting 'disclaimer' to true/1/yes will all end up as TRUE.
+   *
+   * Fun note: using booleans (true/false) as shortcode attributes does not work. The mere presence
+   * of the attribute, along with _any_ value, will evaluate to "true". Thus, entering 'disclaimer'=false
+   * as your attribute will actually end up with 'disclaimer' equalling TRUE! That's why we're using the
+   * boolean filter below. It uses wordpress's built-in validator where only 'false' ends up as false.
+   *
    */
    public function gios_map_shortcode_handler( $atts, $content = "" ) {
 
-    /*
-    if ( ! is_array( $atts ) ) {
-      $atts = array();
-    }
+    // process shortcode attributes, providing default values
+    shortcode_atts(
+      array( 'disclaimer' => false ),
+      $atts,
+      'gios_map'
+    );
 
-    ensure_default( $atts, 'foo', 'Foo!' );
-    ensure_default( $atts, 'bar', 'Bar!' );
+    // convert the disclaimer value to its corresponding boolean value
+    $atts['disclaimer'] = filter_var( $atts['disclaimer'], FILTER_VALIDATE_BOOLEAN );
+
+    // Leaving this here in case future side-effects require us to return to the old ways
+    /*
+      // if no attributes array exists, make an empty one
+      if ( ! is_array( $atts ) ) {
+        $atts = array();
+      }
+
+      // default to not showing the disclaimer
+      ensure_default( $atts, 'disclaimer', false );
     */
 
+    // pass the attributes to the view and return it for display
     $view_name = 'gios-map-shortcode.gios-map-display';
-    //$response = $this->view( $view_name )->add_data( $atts )->build();
-    $response = $this->view( $view_name )->build();
+    $response = $this->view( $view_name )->add_data( $atts )->build();
+    //$response = $this->view( $view_name )->build();
     return $response->content;
     }
 
