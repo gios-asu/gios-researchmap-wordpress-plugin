@@ -315,6 +315,10 @@ $( document ).ready( function() {
         function() {
           $( ".overlay").fadeIn( 250, function() {
             $( '#details-close' ).removeClass( "map-control-disabled" );
+            $( document ).on('keyup', function( e ) {
+              endDetailMode();
+              e.stopPropagation();
+            });
           });
         });
     }
@@ -500,6 +504,9 @@ $( document ).ready( function() {
       // set our internal trackers
       config.zoom.detailMode = false;
       config.dimensions.scaleUp = true;
+
+      // stop listening for keypress events
+      $( document ).off( "keyup" );
 
       // restore the country name to the default map title
       $( "#country-name" ).html( config.title.default );
