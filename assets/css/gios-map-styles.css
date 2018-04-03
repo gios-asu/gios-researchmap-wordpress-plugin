@@ -29,14 +29,20 @@
     color: #FFF;
   }
 
+  .title-bar {
+    margin-bottom: 0.5em;
+  }
+
   /* Controls inside the title bar */
   #country-name {
     color: #FFF;
-    font-size: 1.25em;
+    font-size: 1.75em;
+    font-weight: bold;
     text-align: center;
   }
 
   .controls {
+    font-size: 1.5em;
     text-align: center;
   }
 
@@ -160,19 +166,29 @@
 
   /* At medium width, push the control buttons to the right */
   .controls {
+    font-size: 1em;
     text-align: right;
     z-index: 999;
   }
 
   /* At medium width, space out the buttons a bit less */
   .map-control {
-    transition-duration: 0.5s;
     padding: 0 1em;
+    transition-duration: 0.5s;
   }
 
   /* Title sizes for medium or larger screens */
   .project-title {
-    font-size: 1.225em;
+    font-size: 1.25em;
     line-height: 1.3em;
+  }
+}
+
+/**
+ * Special case for very small screens (320px or less)
+ */
+@media only screen and (max-width: 320px ) {
+  #country-name {
+    font-size: 1.5em
   }
 }
