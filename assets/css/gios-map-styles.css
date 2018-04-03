@@ -159,7 +159,17 @@
  */
 @media only screen and (min-width: 768px ) {
 
-   /* Once We get to mid-sized screen, we can move our country name over to the left */
+  /* At medium size or larger, use Flexbox to make sure the country title and map controls
+   * are aligned vertically. The controls are smaller, and don't line up with the baseline
+   * of the country title
+   */
+
+  .title-bar {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  /* Once We get to mid-sized screen, we can move our country name over to the left */
   #country-name {
     text-align: left;
   }
