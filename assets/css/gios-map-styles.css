@@ -173,8 +173,8 @@
 
   /* At medium width, space out the buttons a bit less */
   .map-control {
-    transition-duration: 0.5s;
     padding: 0 1em;
+    transition-duration: 0.5s;
   }
 
   /* Title sizes for medium or larger screens */
