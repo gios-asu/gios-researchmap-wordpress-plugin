@@ -52,7 +52,7 @@ $( document ).ready( function() {
       },
       "title": {
         // what to show when we're not looking at a specific country name
-        "default": "Wrigley Works Worldwide"
+        "default": "Global Sustainability Research"
       }
     };
 
