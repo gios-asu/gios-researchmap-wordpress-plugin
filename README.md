@@ -1,11 +1,10 @@
 # wp-gios-map
 A WordPress plugin for displaying the GIOS research map
 
-# Version
-1.0.0
-
 # Requirements
-Not precisely known at this time; whatever Docker magic we have lined up.
+* PHP 5.4 or later
+* jQuery 2.2.4 or later (2.2.4 was the version in the WordPress theme at the time of development)
+
 
 # Overview
 This plugin uses a collection of Javascript libraries, and a small chunk of HTML, to create a map of the world with plotted data "bubbles" at specified locations. As currently configured, the data bubbles represent GIOS research/activities around the world; these data points are pulled from a MySQL database specific to the map, and are requested via AJAX from an API server also created specially for the map.
@@ -29,6 +28,8 @@ As mentioned above, the map uses a handful of Javascript libraries to do its wor
 # Shortcodes
 This plugin provides only one shortcode:
   * `[gios_map]` - Display the default map, with data from the default endpoint
+  * You can toggle the visibility of a disclaimer sentence below the map by adding the attribute `disclaimer` to the code, as in `[gios_map disclaimer="true"]` or `[gios_map disclaimer="false"]`.
+  * The disclaimer sentence itself can be found in the `gios-map-display.handlebars` file
 
 # Notes
 A list of miscellaneous notes that might be second nature to someone who made the map, but would need to be explained to someone else. Also, I forget sometimes.
