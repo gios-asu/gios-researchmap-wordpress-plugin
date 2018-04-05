@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: gios-researchmap-wordpress-plugin
-Plugin URI: http://github.com/gios-asu/wp-gios-map
+Plugin URI: https://github.com/gios-asu/gios-researchmap-wordpress-plugin
 Description: A WordPress plugin for displaying the GIOS research map
 Version: 1.0.0
 Author: Julie Ann Wrigley Global Institute of Sustainability
