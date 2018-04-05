@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gios-asu/gios-map.git"
+    "url": "git+https://github.com/gios-asu/gios-researchmap-wordpress-plugin"
   },
   "keywords": [
     "gios",
@@ -18,9 +18,9 @@
   "author": "Walter McConnell",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gios-asu/gios-map/issues"
+    "url": "https://github.com/gios-asu/gios-researchmap-wordpress-plugin/issues"
   },
-  "homepage": "https://github.com/gios-asu/gios-map#readme",
+  "homepage": "https://github.com/gios-asu/gios-researchmap-wordpress-plugin#readme",
   "dependencies": {
     "jquery": "^3.2.1",
     "jquery-mapael": "^2.1.0",
