@@ -14,14 +14,18 @@ if ( ! defined( 'WP_GIOS_MAP_PLUGIN_VERSION' ) ) {
 
 /**
  * WP_GIOS_Map_Shortcodes
- * provides the shortcode [hello-world]
+ *
+ * Provides the public-facing hooks, scripts, and other elements needed to display
+ * the map, including:
+ *
+ * - The [gios_map] shortcode, and it's callback
+ * - Enqueueing scripts and stylesheets on the map page
+ * - Using the 'wp_head' hook to insert a Mustache template as a script in the header
  */
 class WP_GIOS_Map_Shortcodes extends Hook {
   use Options_Handler_Trait;
 
   private $path_to_views;
-
-  // const EXAMPLE_CLASS_CONSTANT  = 'Example Class Constant Value';
 
   public function __construct() {
     parent::__construct( 'wp-gios-map-shortcodes', WP_GIOS_MAP_PLUGIN_VERSION );
@@ -47,30 +51,6 @@ class WP_GIOS_Map_Shortcodes extends Hook {
    */
   private function view( $template_name ) {
     return new \Nectary\Factories\View_Factory( $template_name, $this->path_to_views );
-  }
-
-  /**
-   * Do not cache any sensitive form data - ASU Web Application Security Standards
-   */
-  public function add_html_cache_header() {
-    if ( $this->current_page_has_hello_world_shortcode() ) {
-      echo '<meta http-equiv="Pragma" content="no-cache"/>
-            <meta http-equiv="Expires" content="-1"/>
-            <meta http-equiv="Cache-Control" content="no-store,no-cache" />';
-    }
-  }
-
-  /**
-   * Do not cache any sensitive form data - ASU Web Application Security Standards
-   * This call back needs to hook after send_headers since we depend on the $post variable
-   * and that is not populated at the time of send_headers.
-   */
-  public function add_http_cache_header() {
-    if ( $this->current_page_has_hello_world_shortcode() ) {
-      header( 'Cache-Control: no-Cache, no-Store, must-Revalidate' );
-      header( 'Pragma: no-Cache' );
-      header( 'Expires: 0' );
-    }
   }
 
   /**
