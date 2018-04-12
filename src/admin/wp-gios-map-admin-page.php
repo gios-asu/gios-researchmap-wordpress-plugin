@@ -151,7 +151,7 @@ class WP_GIOS_Map_Admin_Page extends Hook {
 
     $html = <<<HTML
     <input type="text" id="%s" name="%s[%s]" value="%s"/><br/>
-    <em>This is the second example plugin setting stored in the WP options table. This example setting is named <b>"setting_two"</b>.</em>
+    <em>The color of the data plots ('bubbles') on the map.</em>
 HTML;
 
     printf(
@@ -178,7 +178,7 @@ HTML;
 
     $html = <<<HTML
     <input type="text" id="%s" name="%s[%s]" value="%s"/><br/>
-    <em>This is the first example plugin setting stored in the WP options table. This example setting is named <b>"setting_one"</b>.</em>
+    <em>The color used to fill in the countries on the map</b>.</em>
 HTML;
 
     printf(
