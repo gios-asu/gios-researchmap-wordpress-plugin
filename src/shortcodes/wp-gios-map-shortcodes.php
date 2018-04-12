@@ -143,24 +143,13 @@ class WP_GIOS_Map_Shortcodes extends Hook {
    * template. that <div> shows a text disclaimer under the map. Edit the file in
    * "/src/views/gios-map-shortcode/gios-map-display.handlebars" to change the text that
    * appears on screen.
-   *
-   * Also, I have commented out the use of some custom functions we wrote to provide default
-   * attribute values. That is already possible through the use of Wordpress's shortcode_atts()
-   * method, and I figure it's best to use the built-in stuff.
-   *
-   * By using shortcode_atts(), we can also provide the name of the shortcode to enable filtering
-   * of the values. We use that here to convert the 'disclaimer' attribute to it's corresponding
-   * boolean value. That way, setting 'disclaimer' to true/1/yes will all end up as TRUE.
-   *
-   * Fun note: using booleans (true/false) as shortcode attributes does not work. The mere presence
-   * of the attribute, along with _any_ value, will evaluate to "true". Thus, entering 'disclaimer'=false
-   * as your attribute will actually end up with 'disclaimer' equalling TRUE! That's why we're using the
-   * boolean filter below. It uses wordpress's built-in validator where only 'false' ends up as false.
-   *
    */
    public function gios_map_shortcode_handler( $atts, $content = "" ) {
 
-    // process shortcode attributes, providing default values
+    /* process shortcode attributes, providing default values. Please note: this uses
+     * WordPress's built-in methods for handling shortcode attributes, ignoring calls
+     * to our own functions.
+     */
     shortcode_atts(
       array( 'disclaimer' => false ),
       $atts,
@@ -169,17 +158,6 @@ class WP_GIOS_Map_Shortcodes extends Hook {
 
     // convert the disclaimer value to its corresponding boolean value
     $atts['disclaimer'] = filter_var( $atts['disclaimer'], FILTER_VALIDATE_BOOLEAN );
-
-    // Leaving this here in case future side-effects require us to return to the old ways
-    /*
-      // if no attributes array exists, make an empty one
-      if ( ! is_array( $atts ) ) {
-        $atts = array();
-      }
-
-      // default to not showing the disclaimer
-      ensure_default( $atts, 'disclaimer', false );
-    */
 
     // pass the attributes to the view and return it for display
     $view_name = 'gios-map-shortcode.gios-map-display';
@@ -195,10 +173,6 @@ class WP_GIOS_Map_Shortcodes extends Hook {
      * the shortcode), so I looked for the best way to get this non-javascript file into a
      * WordPress page. Turns out, the best/easiest way is to use the wp_head() hook, and just
      * echo the script text itself via a function.
-     *
-     * Wordpress is strict about what it will enqueue, and you can't enqueue a .mustache file,
-     * nor can you enqueue a file with actual <script> tags, as required by mustache. So, I put
-     * it here.
      */
     public function add_mustache_tempate() {
       echo '<script id="template" type="x-tmpl-mustache">
