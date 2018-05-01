@@ -455,9 +455,14 @@ $( document ).ready( function() {
       var template = $( '#template' ).html();
       var projects = elemOptions.projects;
 
-      // loop through the projects and build the image link
+      // loop through the projects and build the image link. Do NOT build a link if the SDG value is
+      // empty/null/false/etc.
       $.each( projects, function( key, value ) {
-        value.sdg = wpUrls.img_path + "/" + config.images.sdgPath + value.sdg + config.images.sdgFormat;
+        if( value.sdg ) {
+          value.iconPath = wpUrls.img_path + "/" + config.images.sdgPath + value.sdg + config.images.sdgFormat;
+        }else{
+          value.iconPath = null;
+        }
       });
 
       // Configure and render our template
