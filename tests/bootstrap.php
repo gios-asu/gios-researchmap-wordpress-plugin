@@ -18,7 +18,7 @@ require_once $_tests_dir . '/includes/functions.php';
  */
 function _manually_load_plugin() {
   require dirname( __FILE__ ) . '/data-loader.php';
-	require dirname( dirname( __FILE__ ) ) . '/honeycomb-starter-wordpress-plugin.php';
+	require dirname( dirname( __FILE__ ) ) . '/wp-gios-map.php';
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 

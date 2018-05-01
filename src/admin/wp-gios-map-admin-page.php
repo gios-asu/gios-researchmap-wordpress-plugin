@@ -1,29 +1,29 @@
 <?php
-namespace HoneycombStarter\Admin;
+namespace wpGiosMap\Admin;
 use Honeycomb\Wordpress\Hook;
 
 // Avoid direct calls to this file
-if ( ! defined( 'HONEYCOMB_STARTER_PLUGIN_VERSION' ) ) {
+if ( ! defined( 'WP_GIOS_MAP_PLUGIN_VERSION' ) ) {
   header( 'Status: 403 Forbidden' );
   header( 'HTTP/1.1 403 Forbidden' );
   exit();
 }
 
 /**
- * Honeycomb_Starter_Admin_Page
+ * WP_GIOS_Map_Admin_Page
  * provides the WP Admin settings page
  */
-class Honeycomb_Starter_Admin_Page extends Hook {
-  use \HoneycombStarter\Options_Handler_Trait;
+class WP_GIOS_Map_Admin_Page extends Hook {
+  use \wpGiosMap\Options_Handler_Trait;
 
-  public static $options_name = 'honeycomb-starter-options';
-  public static $options_group = 'honeycomb-starter-options_group';
-  public static $section_id = 'honeycomb-starter-section_id';
-  public static $section_name = 'honeycomb-starter-section_name';
-  public static $page_name = 'honeycomb-starter-admin-page';
+  public static $options_name = 'wp-gios-map-options';
+  public static $options_group = 'wp-gios-map-options_group';
+  public static $section_id = 'wp-gios-map-section_id';
+  public static $section_name = 'wp-gios-map-section_name';
+  public static $page_name = 'wp-gios-map-admin-page';
 
-  public static $setting_one_option_name = 'setting_one';
-  public static $setting_two_option_name = 'setting_two';
+  public static $setting_one_option_name = 'country_color';
+  public static $setting_two_option_name = 'bubble_color';
 
  public function __construct( $version = '0.1' ) {
     parent::__construct( $version );
@@ -65,7 +65,7 @@ class Honeycomb_Starter_Admin_Page extends Hook {
 
     add_settings_section(
         self::$section_id,
-        'Honeycomb Starter Settings',
+        'Map Colors',
         array(
           $this,
           'print_section_info',
@@ -75,7 +75,7 @@ class Honeycomb_Starter_Admin_Page extends Hook {
 
     add_settings_field(
         self::$setting_one_option_name,
-        'Setting One Example',
+        'Country Color',
         array(
           $this,
           'setting_one_on_callback',
@@ -86,7 +86,7 @@ class Honeycomb_Starter_Admin_Page extends Hook {
 
     add_settings_field(
         self::$setting_two_option_name,
-        'Setting Two Example',
+        'Bubble Color',
         array(
           $this,
           'setting_two_on_callback',
@@ -97,14 +97,14 @@ class Honeycomb_Starter_Admin_Page extends Hook {
   }
 
   public function admin_menu() {
-    $page_title = 'Honeycomb Starter Plugin Settings';
-    $menu_title = 'Honeycomb Starter';
+    $page_title = 'Research Map Settings';
+    $menu_title = 'Research Map';
     $capability = 'manage_options';
     $path = plugin_dir_url( __FILE__ );
 
     add_options_page(
         'Settings Admin',
-        'Honeycomb Starter Page',
+        'WP GIOS Map Page',
         $capability,
         self::$page_name,
         array( $this, 'render_admin_page' )
@@ -115,7 +115,7 @@ class Honeycomb_Starter_Admin_Page extends Hook {
   public function render_admin_page() {
     ?>
     <div class="wrap">
-        <h1>Honeycomb Starter Settings</h1>
+        <h1>WP GIOS Map Settings</h1>
         <form method="post" action="options.php">
         <?php
             // This prints out all hidden setting fields
@@ -151,7 +151,7 @@ class Honeycomb_Starter_Admin_Page extends Hook {
 
     $html = <<<HTML
     <input type="text" id="%s" name="%s[%s]" value="%s"/><br/>
-    <em>This is the second example plugin setting stored in the WP options table. This example setting is named <b>"setting_two"</b>.</em>
+    <em>The color of the data plots ('bubbles') on the map.</em>
 HTML;
 
     printf(
@@ -178,7 +178,7 @@ HTML;
 
     $html = <<<HTML
     <input type="text" id="%s" name="%s[%s]" value="%s"/><br/>
-    <em>This is the first example plugin setting stored in the WP options table. This example setting is named <b>"setting_one"</b>.</em>
+    <em>The color used to fill in the countries on the map</b>.</em>
 HTML;
 
     printf(
@@ -196,7 +196,7 @@ HTML;
   public function form_submit( $input ) {
     // intval the setting_one_option_name
     if ( isset( $input[ self::$setting_one_option_name ] ) ) {
-      $input[ self::$setting_one_option_name ] = intval( $input[ self::$setting_one_option_name ] );
+      $input[ self::$setting_one_option_name ] = strtoupper( $input[ self::$setting_one_option_name ] );
     }
 
     if ( isset( $input[ self::$setting_two_option_name ] ) ) {

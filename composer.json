@@ -1,11 +1,11 @@
 {
-  "name": "gios-asu/honeycomb-starter-wordpress-plugin",
-  "description": "A starter WordPress plugin for building your own Honeycomb-based plugins",
+  "name": "gios-asu/gios-researchmap-wordpress-plugin",
+  "description": "A WordPress plugin for displaying the GIOS research map",
   "type": "project",
   "authors": [
     {
-      "name": "Nathan Rollins",
-      "email": "nathan.rollins@asu.edu"
+      "name": "Walter McConnell",
+      "email": "Walter.McConnell@asu.edu"
     }
   ],
   "autoload": {
