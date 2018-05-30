@@ -131,7 +131,7 @@ class WP_GIOS_Map_Shortcodes extends Hook {
      * to our own functions.
      */
     shortcode_atts(
-      array( 'disclaimer' => false ),
+      array( 'disclaimer' => 'false' ),
       $atts,
       'gios_map'
     );
