@@ -169,14 +169,14 @@ class WP_GIOS_Map_Shortcodes extends Hook {
             </div>
             <div class="col-xs-2 text-right">
               {{#sdg}}
-                <a href="https://sustainabledevelopment.un.org/sdg{{sdg}}" target="_blank"><img src="{{iconPath}}}" class="sdg-icon" /></a>
+                <a href="https://sustainabledevelopment.un.org/sdg{{sdg}}" class="sdg-link" target="_blank"><img src="{{iconPath}}}" class="sdg-icon" /></a>
               {{/sdg}}
             </div>
           </div>
 
           {{#description}}
             <div class="row">
-              <div class="col-xs-12 project-description">
+              <div class="col-xs-10 project-description">
                 <p>{{ description }}</p>
               </div>
             </div>
