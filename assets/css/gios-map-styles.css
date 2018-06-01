@@ -126,18 +126,29 @@
       /* Titles for projects */
       .project-title {
         color: #FFB204;
+        font-size: 1.25em;
         font-weight: bold;
+        line-height: 1.3em;
+        margin-bottom: .5em;
       }
 
       /* SDG Icons that appear next to project titles */
       .sdg-icon {
-        width: 32px;
+        margin-right: 20px;
+        width: 80px;
+      }
+
+      a.sdg-link, a.sdg-link:hover {
+        border-bottom: none; /* to override the theme's treatment of links */
+        text-decoration: none;
       }
 
       /* Actual project description text */
+      /*
       .project-description {
         margin-top: 1rem;
       }
+      */
 
       /* Our 'Read More' links reveal the full text <span>, which is hidden by this class */
       .morecontent span {
@@ -165,8 +176,8 @@
    */
 
   .title-bar {
-    display: flex;
     align-items: flex-end;
+    display: flex;
   }
 
   /* Once We get to mid-sized screen, we can move our country name over to the left */
