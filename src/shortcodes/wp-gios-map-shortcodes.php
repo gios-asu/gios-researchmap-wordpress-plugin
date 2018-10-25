@@ -102,7 +102,6 @@ class WP_GIOS_Map_Shortcodes extends Hook {
       $url_to_script = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/js/gios-map.min.js';
       wp_enqueue_script( 'gios-map', $url_to_script, null, '1.0.0', false );
 
-
       /**
        * use the wp_localize_script() method to add a Javascript object to our page. The object
        * contains the image path variable set here. Our Javascript expects this object to exist
@@ -131,7 +130,11 @@ class WP_GIOS_Map_Shortcodes extends Hook {
      * to our own functions.
      */
     shortcode_atts(
-      array( 'disclaimer' => 'false' ),
+      array(
+        'disclaimer'  => 'false',
+        'disclaimer-text' => '(disclaimer not provided)',
+        'title'       => '(title not provided)'
+      ),
       $atts,
       'gios_map'
     );
