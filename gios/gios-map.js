@@ -1,6 +1,8 @@
 /* Making the Map */
 $( document ).ready( function() {
 
+    //var defaultTitle = $('#country-name').text();
+
     /**************************************************************************
      * Configuration
      *
@@ -52,7 +54,7 @@ $( document ).ready( function() {
       },
       "title": {
         // what to show when we're not looking at a specific country name
-        "default": "Global Sustainability Research"
+        "default": $('#country-name').text()
       }
     };
 
@@ -143,7 +145,7 @@ $( document ).ready( function() {
           updateMap( config.data.originalBubbles );
 
           // replace the country name with the default title
-          $( "#country-name" ).html( config.title.default);
+          // $( "#country-name" ).html( config.title.default);
           });
         }
       }
