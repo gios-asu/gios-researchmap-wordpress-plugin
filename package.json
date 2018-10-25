@@ -1,6 +1,6 @@
 {
   "name": "gios-map",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "visual map of ASU GIOS research projects",
   "main": "index.html",
   "scripts": {

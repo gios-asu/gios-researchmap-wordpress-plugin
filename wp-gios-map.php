@@ -16,7 +16,7 @@ if ( ! function_exists( 'add_filter' ) ) {
   exit();
 }
 
-define( 'WP_GIOS_MAP_PLUGIN_VERSION', '1.0.0' );
+define( 'WP_GIOS_MAP_PLUGIN_VERSION', '1.0.1' );
 
 require __DIR__ . '/vendor/autoload.php';
 
