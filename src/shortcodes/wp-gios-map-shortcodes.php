@@ -133,7 +133,8 @@ class WP_GIOS_Map_Shortcodes extends Hook {
       array(
         'disclaimer'  => 'false',
         'disclaimer-text' => '(disclaimer not provided)',
-        'title'       => '(title not provided)'
+        'title'       => '(title not provided)',
+        'data-url'    => ''
       ),
       $atts,
       'gios_map'
@@ -180,7 +181,7 @@ class WP_GIOS_Map_Shortcodes extends Hook {
           {{#description}}
             <div class="row">
               <div class="col-xs-10 project-description">
-                <p>{{ description }}</p>
+                <p>{{{ description }}}</p>
               </div>
             </div>
           {{/description}}
