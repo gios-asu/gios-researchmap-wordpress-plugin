@@ -1,7 +1,7 @@
 /* Making the Map */
 $( document ).ready( function() {
 
-    //var defaultTitle = $('#country-name').text();
+    var mapData = $('#gios-map-container').data();
 
     /**************************************************************************
      * Configuration
@@ -45,7 +45,8 @@ $( document ).ready( function() {
       },
       "data": {
         "originalBubbles": {},
-        "highlightedAreas": []
+        "highlightedAreas": [],
+        "url": mapData.dataUrl
       },
       "images": {
         // used to build our image paths
@@ -129,7 +130,7 @@ $( document ).ready( function() {
           /**
            * Read the data file. On success, create tooltips, save the data, and update the map.
            */
-          projectList = $.getJSON( 'https://researchmap.api.gios.asu.edu/v1/locations' ).done( function( response ) {
+          projectList = $.getJSON( config.data.url ).done( function( response ) {
 
             /**
              * Loops through the JSON data we got from the server (called 'response') and adds
