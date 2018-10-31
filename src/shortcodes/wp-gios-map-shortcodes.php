@@ -160,33 +160,28 @@ class WP_GIOS_Map_Shortcodes extends Hook {
      */
     public function add_mustache_tempate() {
       echo '<script id="template" type="x-tmpl-mustache">
-        {{#items}}
-        <div class="project-box">
-          <div class="row">
-            <div class="col-xs-10 project-title">
-              {{#slug}}
-               <a href="{{slug}}" target="_blank">{{name}}</a>
-              {{/slug}}
-              {{^slug}}
-                {{name}}
-              {{/slug}}
-            </div>
-            <div class="col-xs-2 text-right">
-              {{#sdg}}
-                <a href="https://sustainabledevelopment.un.org/sdg{{sdg}}" class="sdg-link" target="_blank"><img src="{{iconPath}}}" class="sdg-icon" /></a>
-              {{/sdg}}
-            </div>
-          </div>
+  {{#items}}
+    <div class="project-box">
+      <div class="row">
+        <div class="col-xs-10 project-title">
+          {{ name }}
+        </div>
+      {{#sdg}}
+        <div class="col-xs-2 text-right">
+          <a href="https://sustainabledevelopment.un.org/sdg{{sdg}}" class="sdg-link" target="_blank"><img src="{{iconPath}}}" class="sdg-icon" /></a>
+        </div>
+      {{/sdg}}
+      </div>
 
-          {{#description}}
-            <div class="row">
-              <div class="col-xs-10 project-description">
-                <p>{{{ description }}}</p>
-              </div>
-            </div>
-          {{/description}}
-         </div>
-        {{/items}}
-      </script>';
+      <div class="row">
+        <div class="col-xs-10 project-description">
+          <p>{{{description}}}{{#slug}}&nbsp;<a href="{{ slug }}" target="_blank">Visit this project.</a>
+          {{/slug}}</p>
+
+        </div>
+      </div>
+    </div>
+  {{/items}}
+</script>';
     }
 }
