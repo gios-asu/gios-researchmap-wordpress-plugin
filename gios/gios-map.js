@@ -476,7 +476,7 @@ $( document ).ready( function() {
 
       /**
        * Truncate the project descriptions. Each description has a default class of '.more' in
-       * the template, so counting the number of occurences of the class 'more',  lets us know if
+       * the template, so counting the number of occurences of the class 'more' lets us know if
        * we need to loop through and truncate text. This ends up creating to copies of the text: a
        * truncated one (with the class 'more'), and a full-length one (with the class 'less').
        */
