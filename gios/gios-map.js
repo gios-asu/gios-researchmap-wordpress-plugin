@@ -139,7 +139,20 @@ $( document ).ready( function() {
              */
             $.each( response, function( key, value ) {
               value.tooltip = { content: value.name };
+              if( value.iso == "XX" ) {
+                value.text = {};
+                value.attrs = {};
+                value.attrsHover = {};
+                value.attrs.type = "square";
+                value.attrs.fill = "#4286f4";
+                //value.attrs.url = wpUrls.img_path + "/" + config.images.sdgPath + 'globe.png';
+                value.attrsHover.stroke = "#4286f4";
+                value.text.content = "Global";
+                value.text.position = "inner";
+                console.log( value );
+              }
             });
+
 
           // save our original bubbles and then put them on the map
           config.data.originalBubbles = response;
