@@ -131,8 +131,10 @@ class WP_GIOS_Map_Shortcodes extends Hook {
      */
     shortcode_atts(
       array(
-        'disclaimer'  => 'false',
-        'disclaimer-text' => '(disclaimer not provided)',
+        'top-text-on'  => 'false',
+        'top-text' => '( default top text )',
+        'bottom-text-on' => 'false',
+        'bottom-text' => '( default bottom text )',
         'title'       => '(title not provided)',
         'data-url'    => ''
       ),
@@ -141,7 +143,8 @@ class WP_GIOS_Map_Shortcodes extends Hook {
     );
 
     // convert the disclaimer value to its corresponding boolean value
-    $atts['disclaimer'] = filter_var( $atts['disclaimer'], FILTER_VALIDATE_BOOLEAN );
+    $atts['top-text-on'] = filter_var( $atts['top-text-on'], FILTER_VALIDATE_BOOLEAN );
+    $atts['bottom-text-on'] = filter_var( $atts['bottom-text-on'], FILTER_VALIDATE_BOOLEAN );
 
     // pass the attributes to the view and return it for display
     $view_name = 'gios-map-shortcode.gios-map-display';
