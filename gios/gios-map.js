@@ -21,8 +21,8 @@ $( document ).ready( function() {
       },
       "colors": {
         // colors used by jquery-mapael when drawing the map
-        "countries": "#7C7C7C",
-        "countryHover": "#7C7C7C",
+        "countries": "#7c7c7c",
+        "countryHover": "#7c7c7c",
         "selectedCountryFill": "#FFB204",
         "borders": "#000",
         "bubbleFill": "#FFB204",
@@ -64,7 +64,8 @@ $( document ).ready( function() {
      *
      * jQuery-mapael initialization and configuration. Here we are setting the
      * default look/feel of the map, and - via the afterInit() callback - actually
-     * plotting our "bubbles" on the map.
+     * plotting our "bubbles" on the map. Some values are hard-coded here, and some
+     * are taken from the config object above.
      *************************************************************************/
     $( '.map-container' ).mapael({
       map : {
@@ -74,7 +75,6 @@ $( document ).ready( function() {
           maxLevel: 30,
           animDuration: 250
         },
-        //name : 'world_countries_miller',
         name: "world_countries_miller",
         cssClass: 'gios-research-map',
         defaultArea: {
@@ -94,7 +94,7 @@ $( document ).ready( function() {
             position: "right"
           },
           attrsHover: {
-            fill: config.colors.countries
+            fill: config.colors.countryHover
           }
         },
         defaultPlot: {
@@ -103,7 +103,7 @@ $( document ).ready( function() {
             fill: config.colors.bubbleFill,
             'fill-opacity': 0.75,
             'stroke-width': 0
-          },
+            },
           attrsHover: {
             fill: config.colors.bubbleHover,
             transform: "s1.25",
@@ -111,7 +111,7 @@ $( document ).ready( function() {
             "stroke-width": 2,
             stroke: config.colors.bubbleHoverBorder,
             'fill-opacity': 0.85
-          },
+            },
           eventHandlers: {
             click: function( e, id, mapElem, textElem, elemOptions ){
               startDetailMode( elemOptions );
@@ -130,29 +130,31 @@ $( document ).ready( function() {
           /**
            * Read the data file. On success, create tooltips, save the data, and update the map.
            */
+          var globalIcon = 0;
           projectList = $.getJSON( config.data.url ).done( function( response ) {
 
             /**
              * Loops through the JSON data we got from the server (called 'response') and adds
              * the 'area' name as a tool tip. In jQuery Mapael, regions on a map are called 'areas' and,
-             * on a map of the whole world, those areas are countries. So we are getting country names here.
+             * on a map of the whole world, those areas are countries. So we are getting country names to
+             * put in our floating tool-tips.
              */
+
+
             $.each( response, function( key, value ) {
+
               value.tooltip = { content: value.name };
+
               if( value.iso == "XX" ) {
-                value.text = {};
-                value.attrs = {};
-                value.attrsHover = {};
-                value.attrs.type = "square";
-                value.attrs.fill = "#4286f4";
-                //value.attrs.url = wpUrls.img_path + "/" + config.images.sdgPath + 'globe.png';
-                value.attrsHover.stroke = "#4286f4";
-                value.text.content = "Global";
-                value.text.position = "inner";
-                console.log( value );
+                if( globalIcon == 0 ) {
+                  value.type = "image";
+                  value.url = wpUrls.img_path + "/" + 'global.png';
+                  value.width = 32;
+                  value.height = 32;
+                  globalIcon = 1;
+                }
               }
             });
-
 
           // save our original bubbles and then put them on the map
           config.data.originalBubbles = response;
@@ -195,15 +197,16 @@ $( document ).ready( function() {
     /**************************************************************************
      * Custom Events/Hooks
      *
-     * Event handlers and callbacks we created ourselves. I know that the logic
-     * looks weird here, but attempt to use jQuery's not() method - to trap
-     * clicks that are on buttons who do NOT have the disabled class - were not
-     * working as expected; hasClass(), however, worked the way I wanted.
+     * Event handlers and callbacks we created ourselves. These are principally
+     * here to handle clicks on the the map controls. To prevent zooming in/out
+     * when we are in 'detail mode' (showing projects below a smaller map), we
+     * don't trigger any zoom events when a control has the 'map-control-disabled'
+     * class applied.
      *************************************************************************/
     // zoom in button click
     $( "#map-zoom-in" ).click( function() {
-      if( $(this).hasClass(".map-control-disabled" ) ) {
-        // do nothing
+      if( $(this).hasClass("map-control-disabled" ) ) {
+        //do nothing
       }else{
         $( ".gios-research-map" ).trigger( "zoom", { "level": "+5" } );
       }
@@ -264,7 +267,8 @@ $( document ).ready( function() {
       // this will hold the new values for any country in the config.data.highlightedAreas array
       var updatedAreas = { areas: {} };
 
-      /**or each highlighted country, reset its settings. We are pulling the colors from
+      /**
+       * For each highlighted country, reset its settings. We are pulling the colors from
        * our global config object. The 'attrs', 'attrsHover', and 'text' items are properties
        * of Mapael areas.
        */
@@ -403,6 +407,9 @@ $( document ).ready( function() {
      */
     function startDetailMode( elemOptions ) {
 
+      var zoomLat = 0.0;
+      var zoomLong = 0.0;
+
       // fade out our two zoom buttons, and add our disabled class
       $( '[class*="map-zoom"]' ).fadeOut( 'fast' );
       $( "#map-zoom-in, #map-zoom-out").addClass( "map-control-disabled" );
@@ -413,14 +420,21 @@ $( document ).ready( function() {
       // set our internal detailMode variable
       config.zoom.detailMode = true;
 
-      // get the lat/long of the selected bubble from the object the map gave us
-      var zoomLat = elemOptions.latitude;
-      var zoomLong = elemOptions.longitude;
+      /**
+       * Get the lat/long of the selected bubble from the object the map gave us,
+       * UNLESS it's our reserved 'XX' location (Global Projects), which will not
+       * zoom in, only scale down.
+       */
 
-      // set a default zoom level, for when the data file does not provide one
+      if (iso_code !== 'XX') {
+        zoomLat = elemOptions.latitude;
+        zoomLong = elemOptions.longitude;
+      }
+
+      // set a default zoom level in case the data file does not provide one
       var zoomLevel = 15.0;
 
-      // push the id (which in our data file is the ISO 2-letter country code) onto our array
+      // push the id (which, in our data file, is the ISO 2-letter country code) onto our array
       config.data.highlightedAreas.push( iso_code );
 
       /**
@@ -454,17 +468,19 @@ $( document ).ready( function() {
       $( '.tool-tip' ).fadeOut();
 
       // if there is a zoom level in the data (from our file), use it to replace
-      // our default - UNLESS it is zero
-      if( typeof( elemOptions.zoom ) != 'undefined' &&  elemOptions.zoom > 0 ) {
+      // our default
+      if( typeof( elemOptions.zoom ) != 'undefined' ) {
         zoomLevel = elemOptions.zoom;
+        console.log( 'Just received a zoom level of: ' + zoomLevel );
       }
 
       // tell the map to zoom in
-      $( '.gios-research-map' ).trigger( 'zoom', {
-        level: zoomLevel,
-        longitude: zoomLong,
-        latitude: zoomLat
-      });
+        $( '.gios-research-map' ).trigger( 'zoom', {
+          level: zoomLevel,
+          longitude: zoomLong,
+          latitude: zoomLat,
+          //fixedCenter: true
+        });
 
       // grab our template file from the page header, and our projects from the country
       // object the map gave us.
