@@ -7,14 +7,19 @@
       <i id="details-close" class="fa fa-times-circle map-control map-control-disabled">&nbsp;</i>
     </div>
   </div>
+  {{#if top-text-on}}
+    <div class="top-text small text-center">
+        {{{top-text}}}
+    </div>
+  {{/if}}
   <div class="map-container">
     <div class="overlay"></div>
     <div id="research-map" class="gios-research-map"></div>
   </div>
   <div id="details" class="container"></div>
-  {{#if disclaimer}}
-    <div class="disclaimer small text-center">
-      {{{disclaimer-text}}}
+  {{#if bottom-text-on}}
+    <div class="bottom-text small text-center">
+      {{{bottom-text}}}
     </div>
   {{/if}}
   <div class="tool-tip"></div>
